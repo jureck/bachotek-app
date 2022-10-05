@@ -16,6 +16,11 @@ const Tile = styled.article`
     border-radius: 20px;
     padding: 20px 30px 40px 30px;
     margin-right: 30px;
+    transition: all .1s ease-in-out;
+
+    &:hover {
+        background-color: ${colors.whiteOnHover};
+    }
 `
 const Title = styled.p`
     font-weight: 500;
@@ -39,6 +44,10 @@ const Homepage = () => {
                 <Tile>
                     <Title>Sprzęt</Title>
                     <Subtitle>Posiadany sprzęt oraz jego status</Subtitle>
+                </Tile>
+                <Tile>
+                    <Title>Ustawienia</Title>
+                    <Subtitle>Dostosuj ustawienia aplikacji</Subtitle>
                 </Tile>
             </Tiles>
         </PageContent>

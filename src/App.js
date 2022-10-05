@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { colors } from "./constants/colors";
 import UserPanel from './components/UserPanel';
 import Homepage from "./pages/Homepage";
+import Alerts from "./pages/Alerts";
+import PageTitle from "./components/PageTitle";
 
 const AppContainer = styled.div`
   background-color: ${colors.background};
@@ -17,7 +19,8 @@ function App() {
       <HashRouter>
         <Routes>
           <Route path="/" element={<LayoutWithUserPanel />}>
-            <Route path="/" element={<Homepage />}/>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/alerty" element={<Alerts />} />
           </Route>
         </Routes>
       </HashRouter>
@@ -29,6 +32,7 @@ const LayoutWithUserPanel = () => {
   return (
     <>
       <UserPanel />
+      <PageTitle />
       <Outlet />
     </>
   );

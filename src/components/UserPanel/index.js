@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { colors } from "../../constants/colors";
 import { fontSizes } from "../../constants/fontSizes";
 import AlertIcon from "../../assets/icons/alert.png";
+import { Link } from 'react-router-dom';
 
 const Panel = styled.div`
     width: 95%;
@@ -41,8 +42,15 @@ const SignOut = styled.button`
     margin-top: 7px;
     margin-left: 120px;
     padding: 0;
+    transition: all .1s ease-in-out;
+
+    &:hover {
+        background-color: ${colors.whiteOnHover};
+    }
 `
-const Alerts = styled.div`
+const Alerts = styled(Link)`
+    color: black;
+    text-decoration: none;
     cursor: pointer;
     height: 35px;
     width: 80px;
@@ -54,7 +62,12 @@ const Alerts = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: ${props => props.alertsAmount ? '#FFA3A3' : 'white'};
+    background-color: ${props => props.alertsamount ? '#FFA3A3' : 'white'};
+    transition: all .1s ease-in-out;
+
+    &:hover {
+        background-color: ${props => props.alertsamount ? colors.lightRed : 'white' };
+    }
 `
 const AlertsIcon = styled.img`
     width: 20px;
@@ -63,13 +76,14 @@ const AlertsIcon = styled.img`
 const AlertsAmount = styled.span`
     font-weight: 600;
     margin: 0px 0px 0px 8px;
-    font-size: ${fontSizes.xs};
+    font-size: ${fontSizes.s};
 `
+
 
 const UserPanel = () => {
 
     const user = "Admin";
-    const alertsAmount = 0;
+    const alertsAmount = 1;
 
     return (
         <Panel>
@@ -83,7 +97,7 @@ const UserPanel = () => {
                 <SignOut>
                     Wyloguj się
                 </SignOut>
-                <Alerts alertsAmount={alertsAmount}>
+                <Alerts to="/alerty" alertsamount={alertsAmount}>
                     <AlertsIcon src={AlertIcon} />
                     <AlertsAmount>
                         {alertsAmount}
