@@ -32,6 +32,7 @@ const PageTitle = () => {
     let title = useLocation().pathname.slice(1);
     if(title === "alerty") title = "Alerty";
     if(title === "rezerwacje") title = "Rezerwacje";
+    if(title === "nowa-rezerwacja") title = "Dodawanie rezerwacji";
 
     return (
         title ?

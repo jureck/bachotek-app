@@ -7,6 +7,7 @@ import Homepage from "./pages/Homepage";
 import Alerts from "./pages/Alerts";
 import PageTitle from "./components/PageTitle";
 import Reservations from "./pages/Reservations";
+import NewReservation from "./pages/NewReservation";
 
 const AppContainer = styled.div`
   background-color: ${colors.background};
@@ -23,6 +24,7 @@ function App() {
             <Route path="/" element={<Homepage />} />
             <Route path="/alerty" element={<Alerts />} />
             <Route path="/rezerwacje" element={<Reservations />} />
+            <Route path="/nowa-rezerwacja" element={<NewReservation />} />
           </Route>
         </Routes>
       </HashRouter>

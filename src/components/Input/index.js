@@ -7,21 +7,24 @@ const InputElement = styled.input`
     background-color: ${colors.secondary};
     border: 0;
     border-radius: 10px;
-    height: 40px;
+    height: ${props => `${props.height}px`};
     font-size: ${fontSizes.s};
-    text-align: center;
+    padding-left: 10px;
     margin-bottom: 10px;
+    margin-left: 15px;
 `
 const Label = styled.label`
-    margin-right: 10px;
     font-size: ${fontSizes.s};
+    font-weight: 500;
 `
 
-const Input = ({width, type, name, value, label, min, max}) => {
+const Input = ({width = 200, type = "text", name, value, label, min, max, height = 40}) => {
     return (
         <>
-            <Label htmlFor={name}>{label}</Label>
-            <InputElement name={name} width={width} type={type} value={value} min={min} max={max}/>
+            <Label htmlFor={name}>
+                {label}
+                <InputElement name={name} width={width} type={type} value={value} min={min} max={max} height={height}/>
+            </Label>
         </>
     );
 }
