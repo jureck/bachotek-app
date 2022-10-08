@@ -6,6 +6,7 @@ import UserPanel from './components/UserPanel';
 import Homepage from "./pages/Homepage";
 import Alerts from "./pages/Alerts";
 import PageTitle from "./components/PageTitle";
+import Reservations from "./pages/Reservations";
 
 const AppContainer = styled.div`
   background-color: ${colors.background};
@@ -21,6 +22,7 @@ function App() {
           <Route path="/" element={<LayoutWithUserPanel />}>
             <Route path="/" element={<Homepage />} />
             <Route path="/alerty" element={<Alerts />} />
+            <Route path="/rezerwacje" element={<Reservations />} />
           </Route>
         </Routes>
       </HashRouter>

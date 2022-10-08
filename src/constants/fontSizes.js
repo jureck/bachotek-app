@@ -3,5 +3,5 @@ export const fontSizes = {
     s: '20px',
     xm: '23px',
     m: '30px',
-    l: '40px',
+    l: '35px',
 };

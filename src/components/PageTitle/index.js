@@ -22,7 +22,7 @@ const Arrow = styled.img`
 const Title = styled.p`
     padding: 0;
     margin: 0;
-    font-size: ${fontSizes.l};
+    font-size: ${fontSizes.m};
     font-weight: 600;
 `
 
@@ -31,6 +31,7 @@ const PageTitle = () => {
     const navigate = useNavigate();
     let title = useLocation().pathname.slice(1);
     if(title === "alerty") title = "Alerty";
+    if(title === "rezerwacje") title = "Rezerwacje";
 
     return (
         title ?

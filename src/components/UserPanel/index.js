@@ -11,6 +11,7 @@ const Panel = styled.div`
     padding: 60px 0px 40px 60px;
     display: flex;
     flex-direction: row;
+    align-items: center;
 `
 const LoggedAs = styled.p`
     margin: 0;
@@ -20,7 +21,7 @@ const LoggedAs = styled.p`
 `
 const Username = styled.span`
     margin-left: 10px;
-    color: ${colors.green};
+    color: ${colors.primary};
     font-size: ${fontSizes.l};
     font-weight: 600;
 `
@@ -39,7 +40,6 @@ const SignOut = styled.button`
     width: 140px;
     font-size: ${fontSizes.s};
     border-radius: 10px;
-    margin-top: 7px;
     margin-left: 120px;
     padding: 0;
     transition: all .1s ease-in-out;
@@ -54,7 +54,6 @@ const Alerts = styled(Link)`
     cursor: pointer;
     height: 35px;
     width: 80px;
-    margin-top: 7px;
     margin-left: 20px;
     background-color: white;
     border-radius: 10px;

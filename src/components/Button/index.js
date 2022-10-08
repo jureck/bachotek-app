@@ -1,0 +1,30 @@
+import styled from "styled-components";
+import { fontSizes } from "../../constants/fontSizes";
+
+const StyledButton = styled.button`
+    cursor: pointer;
+    color: ${props => props.textColor};
+    background-color: ${props => props.bgColor};
+    border: 0;
+    border-radius: 10px;
+    height: 45px;
+    font-size: ${fontSizes.s};
+    font-weight: 500;
+    padding: 0px 20px;
+    margin: 5px;
+    transition: all .1s ease-in-out;
+
+    &:hover {
+        background-color: ${props => props.hoverColor};
+    }
+`
+
+const Button = ({ bgColor, textColor, hoverColor, text }) => {
+    return ( 
+        <StyledButton type="button" bgColor={bgColor} textColor={textColor} hoverColor={hoverColor}>
+            {text}
+        </StyledButton>
+    );
+}
+ 
+export default Button;

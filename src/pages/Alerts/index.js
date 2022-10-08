@@ -47,6 +47,7 @@ const Column = styled.div`
 const ColumnTitle = styled.span`
     font-weight: 500;
     font-size: ${fontSizes.xm};
+    margin-bottom: 5px;
 `
 const ColumnContent = styled.span`
     font-size: ${fontSizes.s};
@@ -70,7 +71,7 @@ const Alerts = (props) => {
 
     React.useEffect(() => {
         if(!alertsAmount) navigate(-1);
-    }, []);
+    }, [navigate]);
 
     return ( 
         <PageContent>
