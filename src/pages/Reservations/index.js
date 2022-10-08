@@ -155,25 +155,37 @@ const FiltersWrapper = styled.div`
     padding: 20px 40px;
     margin-top: 20px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 `
 const EquipmentsFilter = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    flex-basis: 20%;
 `
 const DayFilter = styled.div`
-    max-width: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    flex-basis: 20%;
 `
 const TimeFilter = styled.div`
-    max-width: 215px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    flex-basis: 20%;
 `
 const StatusFilter = styled.div`
-    
+    flex-basis: 20%;
 `
 const PaymentFilter = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    flex-basis: 20%;
+    
 `
 const FilterTitle = styled.div`
     font-weight: 500;
@@ -185,9 +197,8 @@ const InputWrapper = styled.div`
     width: 100%;
     display: flex;
     flex-direction: row;
-    max-width: 210px;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: center;
 `
 const SortSelect = styled.select`
     cursor: pointer;
@@ -272,6 +283,14 @@ const NextMonth = styled.span`
         color: ${colors.primaryHover};
     }
 `
+const NameFilter = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+`
 
 
 
@@ -319,13 +338,13 @@ const Reservations = () => {
                 </EquipmentsFilter>
                 <DayFilter>
                     <FilterTitle>Dni miesiąca</FilterTitle>
-                    <Input width="80" type="number" min="1" max="31" value={1} label="od" name="dayFilterFrom"/>
+                    <Input width="80" type="number" min="1" max="31" value={1} label="od" name="dayFilterFrom"/><br/>
                     <Input width="80" type="number" min="1" max="31" value={31} label="do" name="dayFilterTo"/>
                 </DayFilter>
                 <TimeFilter>
                     <FilterTitle>Godziny rozpoczęcia</FilterTitle>
-                    <Input width="160" type="time" min="09:00" max="19:00" label="od" name="TimeFilterFrom" value="09:00"/>
-                    <Input width="160" type="time" min="09:00" max="19:00" label="do" name="TimeFilterTo" value="19:00"/>
+                    <Input width="160" type="time" min="09:00" max="19:00" label="od" name="timeFilterFrom" value="09:00"/><br/>
+                    <Input width="160" type="time" min="09:00" max="19:00" label="do" name="timeFilterTo" value="19:00"/>
                 </TimeFilter>
                 <StatusFilter>
                     <FilterTitle>Status</FilterTitle>
@@ -342,6 +361,12 @@ const Reservations = () => {
                         <ToggleToken isSelected={true}>Do zapłacenia</ToggleToken>
                     </InputWrapper>
                 </PaymentFilter>
+                <NameFilter>
+                    <FilterTitle>Dane klienta</FilterTitle>
+                    <InputWrapper>
+                        <Input type="text" name="nameFilter" label="Imię i nazwisko" />
+                    </InputWrapper>
+                </NameFilter>
             </FiltersWrapper>
             <ReservationsContainer>
                 <Month>
