@@ -33,6 +33,7 @@ const PageTitle = () => {
     if(title === "alerty") title = "Alerty";
     if(title === "rezerwacje") title = "Rezerwacje";
     if(title === "nowa-rezerwacja") title = "Dodawanie rezerwacji";
+    if(title === "sprzet") title = "Sprzęt";
 
     return (
         title ?

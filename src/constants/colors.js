@@ -14,5 +14,10 @@ export const colors = {
     primaryHover: '#4d7e4e',
     lightRedHover: '#e26a6a',
     yellowHover: '#cfa408',
+    equipment: {
+        available: '#BEFF96',
+        occupied: '#FF9696',
+        planned: '#FFF496',
+    },
 };
 

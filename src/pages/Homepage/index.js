@@ -44,7 +44,7 @@ const Homepage = () => {
                     <Title>Rezerwacje</Title>
                     <Subtitle>Zarządzaj rezerwacjami</Subtitle>
                 </Tile>
-                <Tile>
+                <Tile to="/sprzet">
                     <Title>Sprzęt</Title>
                     <Subtitle>Posiadany sprzęt oraz jego status</Subtitle>
                 </Tile>
