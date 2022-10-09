@@ -25,7 +25,7 @@ const ReservationsContainer = styled.div`
 const Month = styled.p`
     font-size: ${fontSizes.xm};
     font-weight: 500;
-    margin: 5px 0px;
+    margin: 10px 0px 15px 0px;
     text-align: center;
 `
 const Day = styled.div`
@@ -291,6 +291,10 @@ const NameFilter = styled.div`
     align-items: center;
     margin-top: 20px;
 `
+const EditLink = styled(Link)`
+    
+`
+
 
 
 
@@ -441,12 +445,14 @@ const Reservations = () => {
                             hoverColor={colors.primaryHover}
                             text="Zakończ rezerwację"
                         />
-                        <Button 
-                            bgColor="#F6C927"
-                            textColor="white"
-                            hoverColor={colors.yellowHover}
-                            text="Edytuj"
-                        />
+                        <EditLink to="/edytuj-rezerwacje/1">
+                            <Button 
+                                bgColor="#F6C927"
+                                textColor="white"
+                                hoverColor={colors.yellowHover}
+                                text="Edytuj"
+                            />
+                        </EditLink>
                         <Button 
                             bgColor="#F18686"
                             textColor="white"

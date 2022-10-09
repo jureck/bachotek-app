@@ -10,6 +10,7 @@ import Reservations from "./pages/Reservations";
 import NewReservation from "./pages/NewReservation";
 import Equipment from "./pages/Equipment";
 import EditEquipment from "./pages/EditEquipment";
+import EditReservation from "./pages/EditReservation";
 
 const AppContainer = styled.div`
   background-color: ${colors.background};
@@ -27,6 +28,7 @@ function App() {
             <Route path="/alerty" element={<Alerts />} />
             <Route path="/rezerwacje" element={<Reservations />} />
             <Route path="/nowa-rezerwacja" element={<NewReservation />} />
+            <Route path="/edytuj-rezerwacje/:id" element={<EditReservation />} />
             <Route path="/sprzet" element={<Equipment />} />
             <Route path="/edytuj-sprzet" element={<EditEquipment />} />
           </Route>

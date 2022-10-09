@@ -5,6 +5,12 @@ import { colors } from "../../constants/colors";
 import { fontSizes } from "../../constants/fontSizes";
 import { Link } from "react-router-dom";
 import ToggleToken from "../../components/ToggleToken";
+import Kayak from "../../assets/icons/kayak_black.png";
+import Oar from "../../assets/icons/oar_black.png";
+import Jacket from "../../assets/icons/jacket_black.png";
+import Boat from "../../assets/icons/boat_black.png";
+import Button from "../../components/Button";
+
 
 const ListOptions = styled.section`
     display: flex;
@@ -119,7 +125,7 @@ const Item = styled.div`
     justify-content: space-between;
     padding: 10px 40px;
     border-radius: 20px;
-    width: 30%;
+    width: 50%;
     height: 60px;
     margin-bottom: 10px;
     background-color: ${props => colors.equipment[props.status]};
@@ -127,6 +133,7 @@ const Item = styled.div`
 const ItemType = styled.div`
     display: flex;
     flex-direction: column;
+    flex-basis: 25%;
 `
 const ItemTypeTitle = styled.span`
     font-weight: 500;
@@ -139,6 +146,7 @@ const ItemTypeContent = styled.span`
 const Number = styled.div`
     display: flex;
     flex-direction: column;
+    flex-basis: 30%;
 `
 const NumberTitle = styled.span`
     font-weight: 500;
@@ -151,6 +159,7 @@ const NumberContent = styled.span`
 const Status = styled.div`
     display: flex;
     flex-direction: column;
+    flex-basis: 30%;
 `
 const StatusTitle = styled.span`
     font-weight: 500;
@@ -159,6 +168,11 @@ const StatusTitle = styled.span`
 `
 const StatusContent = styled.span`
     font-size: ${fontSizes.s};
+`
+const ItemIcon = styled.img`
+    height: 65px;
+    flex-basis: 6%;
+    margin-right: 30px;
 `
 
 const Equipment = () => {
@@ -202,6 +216,7 @@ const Equipment = () => {
             <EquipmentList>
 
                 <Item status="available">
+                    <ItemIcon src={Boat} />
                     <ItemType>
                         <ItemTypeTitle>Typ</ItemTypeTitle>
                         <ItemTypeContent>Łódka</ItemTypeContent>
@@ -217,17 +232,18 @@ const Equipment = () => {
                 </Item>
 
                 <Item status="available">
+                    <ItemIcon src={Kayak} />
                     <ItemType>
                         <ItemTypeTitle>Typ</ItemTypeTitle>
-                        <ItemTypeContent>Łódka</ItemTypeContent>
+                        <ItemTypeContent>Kajak</ItemTypeContent>
                     </ItemType>
                     <Number>
-                        <NumberTitle>Numer</NumberTitle>
-                        <NumberContent>1</NumberContent>
+                        <NumberTitle></NumberTitle>
+                        <NumberContent></NumberContent>
                     </Number>
                     <Status>
-                        <StatusTitle>Status</StatusTitle>
-                        <StatusContent>Dostępny</StatusContent>
+                        <StatusTitle>Dostępna ilość</StatusTitle>
+                        <StatusContent>4 / 10</StatusContent>
                     </Status>
                 </Item>
 
