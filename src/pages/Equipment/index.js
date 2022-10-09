@@ -5,7 +5,6 @@ import { colors } from "../../constants/colors";
 import { fontSizes } from "../../constants/fontSizes";
 import { Link } from "react-router-dom";
 import ToggleToken from "../../components/ToggleToken";
-import Input from "../../components/Input";
 
 const ListOptions = styled.section`
     display: flex;
