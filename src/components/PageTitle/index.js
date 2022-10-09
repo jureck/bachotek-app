@@ -36,6 +36,8 @@ const PageTitle = () => {
     if(title === "sprzet") title = "Sprzęt";
     if(title === "edytuj-sprzet") title = "Edycja stanu sprzętu";
     if(title.includes("edytuj-rezerwacje")) title = "Edycja rezerwacji";
+    if(title.includes("podsumowanie-rezerwacji")) title = "Podsumowanie rezerwacji";
+
 
 
     return (

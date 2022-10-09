@@ -29,6 +29,7 @@ const Month = styled.p`
     text-align: center;
 `
 const Day = styled.div`
+    cursor: pointer;
     background-color: white;
     height: 45px;
     border-radius: 20px;
@@ -37,6 +38,13 @@ const Day = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 `
 const DayName = styled.span`
     display: block;
@@ -60,6 +68,7 @@ const Arrow = styled.img`
     height: 40px;
 `
 const Reservation = styled.div`
+    cursor: pointer;
     display: grid;
     grid-template-columns: repeat(3, 1fr) 1.3fr 1.1fr 1fr 0.3fr;
     grid-template-rows: repeat(3, 1fr);
@@ -72,6 +81,13 @@ const Reservation = styled.div`
     margin-top: 10px;
     overflow: hidden;
     height: ${props => props.array.includes(props.id) ? "auto" : "55px"};
+
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 `
 const Name = styled.div`
     display: flex;
@@ -378,16 +394,16 @@ const Reservations = () => {
                     Październik 2022
                     <NextMonth>NASTĘPNY</NextMonth>
                 </Month>
-                <Day array={expandedDays}>
+                <Day onClick={() => toggleExpansion("day", 2)}  array={expandedDays}>
                     <WeekDay>Niedziela</WeekDay>
                     <DayName>2 października</DayName>
                     <DayArrowWrapper>
-                        <Arrow onClick={() => toggleExpansion("day", 2)} src={expandedDays.includes(2) ? ArrowUp : ArrowDown} />
+                        <Arrow src={expandedDays.includes(2) ? ArrowUp : ArrowDown} />
                     </DayArrowWrapper>
                 </Day>
                 {expandedDays.includes(2) ?
                     <>
-                    <Reservation id={1} array={expandedReservations} reservationStatus={reservationStatus}>
+                    <Reservation onClick={() => toggleExpansion("reservation", 1)} id={1} array={expandedReservations} reservationStatus={reservationStatus}>
                     <Name>
                         <CellTitle>Imię i nazwisko</CellTitle>
                         Jacek Isicki
@@ -414,7 +430,7 @@ const Reservations = () => {
                         W trakcie
                     </Status>
                     <ReservationArrowWrapper>
-                        <Arrow onClick={() => toggleExpansion("reservation", 1)} src={expandedReservations.includes(1) ? ArrowUp : ArrowDown}/>
+                        <Arrow src={expandedReservations.includes(1) ? ArrowUp : ArrowDown}/>
                     </ReservationArrowWrapper>
 
                     <Phone>
@@ -439,12 +455,14 @@ const Reservations = () => {
                     </Comments>
 
                     <ReservationOptions>
-                        <Button 
-                            bgColor={colors.primary}
-                            textColor="white"
-                            hoverColor={colors.primaryHover}
-                            text="Zakończ rezerwację"
-                        />
+                        <EditLink to="/podsumowanie-rezerwacji/1">
+                            <Button 
+                                bgColor={colors.primary}
+                                textColor="white"
+                                hoverColor={colors.primaryHover}
+                                text="Zakończ rezerwację"
+                            />
+                        </EditLink>
                         <EditLink to="/edytuj-rezerwacje/1">
                             <Button 
                                 bgColor="#F6C927"

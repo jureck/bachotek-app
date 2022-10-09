@@ -7,7 +7,7 @@ const StyledButton = styled.button`
     background-color: ${props => props.bgColor};
     border: 0;
     border-radius: 10px;
-    height: 45px;
+    height: ${props => `${props.height}px`};
     font-size: ${fontSizes.s};
     font-weight: 500;
     padding: 0px 20px;
@@ -19,9 +19,9 @@ const StyledButton = styled.button`
     }
 `
 
-const Button = ({ bgColor, textColor, hoverColor, text }) => {
+const Button = ({ bgColor, textColor, hoverColor, text, height = 45 }) => {
     return ( 
-        <StyledButton type="button" bgColor={bgColor} textColor={textColor} hoverColor={hoverColor}>
+        <StyledButton type="button" bgColor={bgColor} textColor={textColor} hoverColor={hoverColor} height={height}>
             {text}
         </StyledButton>
     );

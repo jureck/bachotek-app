@@ -11,6 +11,7 @@ import NewReservation from "./pages/NewReservation";
 import Equipment from "./pages/Equipment";
 import EditEquipment from "./pages/EditEquipment";
 import EditReservation from "./pages/EditReservation";
+import ReservationSummary from "./pages/ReservationSummary";
 
 const AppContainer = styled.div`
   background-color: ${colors.background};
@@ -31,6 +32,7 @@ function App() {
             <Route path="/edytuj-rezerwacje/:id" element={<EditReservation />} />
             <Route path="/sprzet" element={<Equipment />} />
             <Route path="/edytuj-sprzet" element={<EditEquipment />} />
+            <Route path="/podsumowanie-rezerwacji/:id" element={<ReservationSummary />} />
           </Route>
         </Routes>
       </HashRouter>
