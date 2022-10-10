@@ -15,6 +15,7 @@ const ListOptions = styled.section`
     display: flex;
     flex-direction: row;
     margin-top: 30px;
+    margin-bottom: 10px;
 `
 const ReservationsContainer = styled.div`
     width: 100%;
@@ -25,7 +26,7 @@ const ReservationsContainer = styled.div`
 const Month = styled.p`
     font-size: ${fontSizes.xm};
     font-weight: 500;
-    margin: 10px 0px 15px 0px;
+    margin: 10px 0px 5px 0px;
     text-align: center;
 `
 const Day = styled.div`
@@ -308,9 +309,41 @@ const NameFilter = styled.div`
     margin-top: 20px;
 `
 const EditLink = styled(Link)`
-    
 `
-
+const MonthPicker = styled.div`
+    color: black;
+    cursor: pointer;
+    text-align: center;
+    border: 0;
+    font-weight: 500;
+    height: 40px;
+    border-radius: 20px;
+    font-size: ${fontSizes.xm};
+    padding: 0px 20px;
+    background-color: white;
+    line-height: 40px;
+    margin-left: 20px;
+`
+const YearSelect = styled.select`
+    color: ${colors.fontGray};
+    font-weight: 500;
+    margin-left: 5px;
+    font-size: ${fontSizes.s};
+    cursor: pointer;
+    border: 0;
+`
+const MonthSelect = styled.select`
+    color: ${colors.fontGray};
+    font-weight: 500;
+    margin-left: 5px;
+    font-size: ${fontSizes.s};
+    cursor: pointer;
+    border: 0;
+`
+const YearOption = styled.option`
+`
+const MonthOption = styled.option` 
+`
 
 
 
@@ -342,6 +375,15 @@ const Reservations = () => {
                     <SortOption value="byStatus">według statusu</SortOption>
                 </SortSelect>
                 <FiltersToggle isFilterActive={isFilterActive} onClick={() => setIsFilterActive(!isFilterActive)}>Filtruj</FiltersToggle>
+                <MonthPicker>
+                    Skocz do miesiąca:
+                    <YearSelect>
+                        <YearOption>2022</YearOption>
+                    </YearSelect>
+                    <MonthSelect>
+                        <MonthOption>Październik</MonthOption>
+                    </MonthSelect>
+                </MonthPicker>
                 <AddReservationButton to="/nowa-rezerwacja">
                     Dodaj rezerwację
                 </AddReservationButton>
