@@ -30,6 +30,8 @@ const Month = styled.p`
     text-align: center;
 `
 const Day = styled.div`
+    position: sticky;
+    top: 0;
     cursor: pointer;
     background-color: white;
     height: 45px;

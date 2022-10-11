@@ -12,6 +12,11 @@ import Equipment from "./pages/Equipment";
 import EditEquipment from "./pages/EditEquipment";
 import EditReservation from "./pages/EditReservation";
 import ReservationSummary from "./pages/ReservationSummary";
+import UnsignedHomepage from "./pages/UnsignedHomepage";
+import SignIn from "./pages/SignIn";
+import { AuthProvider } from "./context/AuthContext";
+import { useAuth } from "./context/AuthContext";
+import { auth } from "./services/auth/config";
 
 const AppContainer = styled.div`
   background-color: ${colors.background};
@@ -20,23 +25,24 @@ const AppContainer = styled.div`
 `
 
 function App() {
+
+  const { username } = useAuth();
+  
   return (
-    <AppContainer>
-      <HashRouter>
-        <Routes>
-          <Route path="/" element={<LayoutWithUserPanel />}>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/alerty" element={<Alerts />} />
-            <Route path="/rezerwacje" element={<Reservations />} />
-            <Route path="/nowa-rezerwacja" element={<NewReservation />} />
-            <Route path="/edytuj-rezerwacje/:id" element={<EditReservation />} />
-            <Route path="/sprzet" element={<Equipment />} />
-            <Route path="/edytuj-sprzet" element={<EditEquipment />} />
-            <Route path="/podsumowanie-rezerwacji/:id" element={<ReservationSummary />} />
-          </Route>
-        </Routes>
-      </HashRouter>
-    </AppContainer>
+      <AppContainer>
+        <HashRouter>
+          <Routes>
+            {
+              username ?
+                SignedInLayout()
+              :
+                SignedOutLayout()
+
+            }
+            
+          </Routes>
+        </HashRouter>
+      </AppContainer>
   );
 }
 
@@ -49,5 +55,31 @@ const LayoutWithUserPanel = () => {
     </>
   );
 }
+
+const SignedInLayout = () => {
+  return (
+    <Route path="/" element={<LayoutWithUserPanel />}>
+      <Route path="/" element={<Homepage />} />
+      <Route path="/alerty" element={<Alerts />} />
+      <Route path="/rezerwacje" element={<Reservations />} />
+      <Route path="/nowa-rezerwacja" element={<NewReservation />} />
+      <Route path="/edytuj-rezerwacje/:id" element={<EditReservation />} />
+      <Route path="/sprzet" element={<Equipment />} />
+      <Route path="/edytuj-sprzet" element={<EditEquipment />} />
+      <Route path="/podsumowanie-rezerwacji/:id" element={<ReservationSummary />} />
+    </Route>
+  );
+}
+
+const SignedOutLayout = () => {
+  return (
+    <Route path="/" element={<LayoutWithUserPanel />}>
+      <Route path="/" element={<UnsignedHomepage />} />
+      <Route path="/zaloguj-sie" element={<SignIn />} />
+    </Route>
+  );
+}
+
+
 
 export default App;

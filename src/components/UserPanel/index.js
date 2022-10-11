@@ -3,6 +3,7 @@ import { colors } from "../../constants/colors";
 import { fontSizes } from "../../constants/fontSizes";
 import AlertIcon from "../../assets/icons/alert.png";
 import { Link } from 'react-router-dom';
+import { useAuth } from "../../context/AuthContext";
 
 const Panel = styled.div`
     width: 95%;
@@ -29,7 +30,10 @@ const Controls = styled.div`
     display: flex;
     flex-direction: row;
 `
-const SignOut = styled.button`
+const SignToggle = styled(Link)`
+    text-align: center;
+    text-decoration: none;
+    line-height: 35px;
     cursor: pointer;
     display: block;
     border: 0;
@@ -81,29 +85,45 @@ const AlertsAmount = styled.span`
 
 const UserPanel = () => {
 
-    const user = "Admin";
+    const { username, userSignOut } = useAuth();
     const alertsAmount = 1;
 
+    const handleSignout = async () => {
+        try {
+            userSignOut();
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
     return (
-        <Panel>
-            <LoggedAs>
-                Zalogowany jako
-                <Username>
-                    {user}
-                </Username>
-            </LoggedAs>
-            <Controls>
-                <SignOut>
-                    Wyloguj się
-                </SignOut>
-                <Alerts to="/alerty" alertsamount={alertsAmount}>
-                    <AlertsIcon src={AlertIcon} />
-                    <AlertsAmount>
-                        {alertsAmount}
-                    </AlertsAmount>
-                </Alerts>
-            </Controls>
-        </Panel>
+        <>
+        { username ?
+                <Panel>
+                    <LoggedAs>
+                        Zalogowany jako
+                        <Username>{username}</Username>
+                    </LoggedAs>
+                    <Controls>
+                        <SignToggle onClick={handleSignout}>Wyloguj się</SignToggle>
+                        <Alerts to="/alerty" alertsamount={alertsAmount}>
+                            <AlertsIcon src={AlertIcon} />
+                            <AlertsAmount>{alertsAmount}</AlertsAmount>
+                        </Alerts>
+                    </Controls>
+                </Panel>
+            :
+                <Panel>
+                    <LoggedAs>
+                        Jesteś
+                        <Username>niezalogowany</Username>
+                    </LoggedAs>
+                    <Controls>
+                        <SignToggle to="/zaloguj-sie">Zaloguj się</SignToggle>
+                    </Controls>
+                </Panel>
+        }
+        </>
     );
 }
 
