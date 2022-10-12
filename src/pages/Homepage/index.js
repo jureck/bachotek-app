@@ -3,6 +3,7 @@ import PageContent from "../../components/PageContent";
 import { colors } from "../../constants/colors";
 import { fontSizes } from "../../constants/fontSizes";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const Tiles = styled.section`
     display: flex;
@@ -37,6 +38,9 @@ const Subtitle = styled.p`
 `
 
 const Homepage = () => {
+
+    const { username } = useAuth();
+
     return (
         <PageContent>
             <Tiles>
@@ -48,10 +52,14 @@ const Homepage = () => {
                     <Title>Sprzęt</Title>
                     <Subtitle>Posiadany sprzęt oraz jego status</Subtitle>
                 </Tile>
-                <Tile>
-                    <Title>Ustawienia</Title>
-                    <Subtitle>Dostosuj ustawienia aplikacji</Subtitle>
-                </Tile>
+                {
+                    username === "Admin" ? 
+                        <Tile to="/ustawienia">
+                            <Title>Ustawienia</Title>
+                            <Subtitle>Dostosuj ustawienia aplikacji</Subtitle>
+                        </Tile>
+                    : null
+                }
             </Tiles>
         </PageContent>
     );

@@ -2,14 +2,15 @@ import styled from "styled-components";
 import { colors } from "../../constants/colors";
 import { fontSizes } from "../../constants/fontSizes";
 import AlertIcon from "../../assets/icons/alert.png";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from "../../context/AuthContext";
+import PTTK from "../../assets/icons/logo.png";
 
 const Panel = styled.div`
     width: 95%;
-    height: 50px;
+    height: 105px;
     margin: auto;
-    padding: 60px 0px 40px 60px;
+    padding: 30px 0px 40px 60px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -44,7 +45,7 @@ const SignToggle = styled(Link)`
     width: 140px;
     font-size: ${fontSizes.s};
     border-radius: 10px;
-    margin-left: 120px;
+    margin-left: 60px;
     padding: 0;
     transition: all .1s ease-in-out;
 
@@ -81,13 +82,31 @@ const AlertsAmount = styled.span`
     margin: 0px 0px 0px 8px;
     font-size: ${fontSizes.s};
 `
+const Logo = styled.div`
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 30px;
+`
+const LogoImage = styled.img`
+    height: 80px;
+`
+const AppName = styled.span`
+    margin-top: 5px;
+    font-size: ${fontSizes.s};
+    font-weight: 600;
+    color: ${colors.fontGray};
+    letter-spacing: 1px;
+`
 
 
 const UserPanel = () => {
 
     const { username, userSignOut } = useAuth();
     const alertsAmount = 1;
-
+    const navigate = useNavigate();
+    
     const handleSignout = async () => {
         try {
             userSignOut();
@@ -100,6 +119,10 @@ const UserPanel = () => {
         <>
         { username ?
                 <Panel>
+                    <Logo onClick={() => navigate("/")}>
+                        <LogoImage src={PTTK} />
+                        <AppName>System Rezerwacji</AppName>
+                    </Logo>
                     <LoggedAs>
                         Zalogowany jako
                         <Username>{username}</Username>
@@ -114,6 +137,10 @@ const UserPanel = () => {
                 </Panel>
             :
                 <Panel>
+                    <Logo>
+                        <LogoImage src={PTTK} />
+                        <AppName>System Rezerwacji</AppName>
+                    </Logo>
                     <LoggedAs>
                         Jesteś
                         <Username>niezalogowany</Username>

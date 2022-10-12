@@ -19,9 +19,9 @@ const StyledButton = styled.button`
     }
 `
 
-const Button = ({ bgColor, textColor, hoverColor, text, height = 45, onClick }) => {
+const Button = ({ type = "submit", bgColor, textColor, hoverColor, text, height = 45, onClick }) => {
     return ( 
-        <StyledButton onClick={onClick} type="button" bgColor={bgColor} textColor={textColor} hoverColor={hoverColor} height={height}>
+        <StyledButton onClick={onClick} type={type} bgColor={bgColor} textColor={textColor} hoverColor={hoverColor} height={height}>
             {text}
         </StyledButton>
     );

@@ -14,6 +14,7 @@ const User = styled.div`
     min-width: 250px;
     height: 120px;
     background-color: ${props => props.isSelected ? colors.primary : "white"};
+    color: ${props => props.isSelected ? "white" : "black"};
     border-radius: 20px;
     font-size: ${fontSizes.l};
     line-height: 120px;
@@ -33,10 +34,14 @@ const UsersWrapper =  styled.div`
 `
 const PasswordWrapper = styled.div`
     width: 100%;
-    display: flex;
+    display: ${props => props.isVisible ? "flex" : "none"};
     flex-direction: column;
     justify-content: center;
     align-items: center;
+`
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
 `
 
 const SignIn = () => {
@@ -48,7 +53,8 @@ const SignIn = () => {
     const [isError, setIsError] = useState(false);
    
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
             await signIn(selectedUser, password);
             navigate("/");
@@ -69,9 +75,11 @@ const SignIn = () => {
                 <User isSelected={selectedUser === "Admin"} onClick={() => setSelectedUser("Admin")}>Admin</User>
                 <User isSelected={selectedUser === "Pracownik"} onClick={() => setSelectedUser("Pracownik")}>Pracownik</User>
             </UsersWrapper>
-            <PasswordWrapper>
-                <Input type="password" label="Hasło" bgColor={isError ? colors.lightRed : "white"} value={password} onChange={(e) => handleChange(e)}/>
-                <Button onClick={handleSubmit} bgColor={colors.primary} hoverColor={colors.primaryHover} text="Zaloguj się" textColor="white"/>
+            <PasswordWrapper isVisible={selectedUser}>
+                <Form onSubmit={handleSubmit}>
+                    <Input type="password" label="Hasło" bgColor={isError ? colors.lightRed : "white"} value={password} onChange={(e) => handleChange(e)}/>
+                    <Button type="submit" bgColor={colors.primary} hoverColor={colors.primaryHover} text="Zaloguj się" textColor="white"/>
+                </Form>
             </PasswordWrapper>
         </PageContent>
     );

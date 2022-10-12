@@ -17,6 +17,7 @@ import SignIn from "./pages/SignIn";
 import { AuthProvider } from "./context/AuthContext";
 import { useAuth } from "./context/AuthContext";
 import { auth } from "./services/auth/config";
+import Settings from "./pages/Settings";
 
 const AppContainer = styled.div`
   background-color: ${colors.background};
@@ -39,7 +40,6 @@ function App() {
                 SignedOutLayout()
 
             }
-            
           </Routes>
         </HashRouter>
       </AppContainer>
@@ -67,6 +67,7 @@ const SignedInLayout = () => {
       <Route path="/sprzet" element={<Equipment />} />
       <Route path="/edytuj-sprzet" element={<EditEquipment />} />
       <Route path="/podsumowanie-rezerwacji/:id" element={<ReservationSummary />} />
+      <Route path="/ustawienia" element={<Settings />} />
     </Route>
   );
 }

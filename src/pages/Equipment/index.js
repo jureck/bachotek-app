@@ -185,8 +185,7 @@ const Equipment = () => {
             <ListOptions>
                 <SortSelect>
                     <SortOption value="byStatus">według statusu</SortOption>
-                    <SortOption value="newest">od najnowszych</SortOption>
-                    <SortOption value="oldest">od najstarszych</SortOption>
+                    <SortOption value="byType">według typu</SortOption>
                 </SortSelect>
                 <FiltersToggle isFilterActive={isFilterActive} onClick={() => setIsFilterActive(!isFilterActive)}>Filtruj</FiltersToggle>
                 <EditEquipmentButton to="/edytuj-sprzet">
