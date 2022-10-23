@@ -16,18 +16,29 @@ const ListOptions = styled.section`
     flex-direction: row;
     margin-top: 30px;
     margin-bottom: 10px;
+
+    @media screen and (max-width: 1100px) {
+        flex-direction: column;
+        align-items: center;
+        flex-wrap: wrap;
+    }
 `
 const ReservationsContainer = styled.div`
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
 `
 const Month = styled.p`
     font-size: ${fontSizes.xm};
     font-weight: 500;
     margin: 10px 0px 5px 0px;
     text-align: center;
+
+    @media screen and (max-width: 500px) {
+        font-size: ${fontSizes.xs};
+    }
 `
 const Day = styled.div`
     position: sticky;
@@ -39,8 +50,10 @@ const Day = styled.div`
     font-size: ${fontSizes.xm};
     font-weight: 400;
     display: flex;
+    padding: 0px 20px;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
 
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -48,16 +61,29 @@ const Day = styled.div`
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
+
+    @media screen and (max-width: 1100px) {
+        width: 95%;
+        padding: 0px 15px;
+        font-size: ${fontSizes.s};
+    }
+
+    @media screen and (max-width: 500px) {
+        font-size: ${fontSizes.xs};
+    }
 `
 const DayName = styled.span`
     display: block;
     line-height: 45px;
-    margin-right: 50px;
+    margin-right: 30px;
+
+    @media screen and (max-width: 1100px) {
+        margin-right: 50px;
+    }
 `
 const WeekDay = styled.span`
     color: ${colors.fontGray};
     line-height: 45px;
-    margin-left: 20px;
 `
 const ReservationArrowWrapper = styled.div`
     grid-area: 1 / 7 / 2 / 8;
@@ -65,25 +91,38 @@ const ReservationArrowWrapper = styled.div`
     justify-content: flex-end;
     margin-right: 5px;
     align-items: center;
+
+    @media screen and (max-width: 1100px) {
+        grid-area: 1 / 4 / 2 / 5;
+    }
+
+    @media screen and (max-width: 370px) {
+        margin-right: 0px;
+    }
 `
 const Arrow = styled.img`
     cursor: pointer;
     height: 40px;
+
+    @media screen and (max-width: 1100px) {
+        height: 20px;
+    }
 `
 const Reservation = styled.div`
     cursor: pointer;
     display: grid;
-    grid-template-columns: repeat(3, 1fr) 1.3fr 1.1fr 1fr 0.3fr;
+    grid-template-columns: 0.9fr 0.6fr 1fr 1.1fr 1.1fr 0.5fr 0.5fr;
     grid-template-rows: repeat(3, 1fr);
-    grid-column-gap: 0px;
-    grid-row-gap: 15px;
+    column-gap: 10px;
+    row-gap: 15px;
     background-color: ${props => colors.reservations[props.reservationStatus]};
     font-size: ${fontSizes.s};
     padding: 20px;
     border-radius: 20px;
     margin-top: 10px;
     overflow: hidden;
-    height: ${props => props.array.includes(props.id) ? "auto" : "55px"};
+    height: ${props => props.array.includes(props.id) ? "auto" : "50px"};
+    width: 100%;
 
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -91,6 +130,30 @@ const Reservation = styled.div`
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
+
+    @media screen and (max-width: 1300px) {
+        font-size: ${fontSizes.xs};
+        height: ${props => props.array.includes(props.id) ? "auto" : "40px"};
+    }
+
+    @media screen and (max-width: 1100px) {
+        padding: 10px 15px;
+        width: 95%;
+        font-size: ${fontSizes.xxs};
+        display: grid;
+        grid-template-columns: repeat(3, 1fr) 0.1fr;
+        grid-template-rows: repeat(4, 1fr) 1.7fr;
+        column-gap: 10px;
+        row-gap: 15px;
+    }
+
+    @media screen and (max-width: 550px) {
+        height: ${props => props.array.includes(props.id) ? "auto" : "60px"};
+    }
+
+    @media screen and (max-width: 500px) {
+        grid-template-rows: repeat(4, 1fr) 3fr;
+    }
 `
 const Name = styled.div`
     display: flex;
@@ -101,67 +164,125 @@ const Equipment = styled.div`
     display: flex;
     flex-direction: column;
     grid-area: 1 / 2 / 3 / 3;
+
+    @media screen and (max-width: 1100px) {
+        grid-area: 2 / 1 / 4 / 2;
+    }
 `
 const StartTime = styled.div`
     display: flex;
     flex-direction: column;
     grid-area: 1 / 3 / 2 / 4;
+
+    @media screen and (max-width: 1100px) {
+        grid-area: 1 / 2 / 2 / 3;
+    }
 `
 const EstimatedEndTime = styled.div`
     display: flex;
     flex-direction: column;
     grid-area: 1 / 4 / 2 / 5;
+
+    @media screen and (max-width: 1100px) {
+        grid-area: 1 / 3 / 2 / 4;
+    }
 `
 const EndTime = styled.div`
     display: flex;
     flex-direction: column;
     grid-area: 1 / 5 / 2 / 6;
+
+    @media screen and (max-width: 1100px) {
+        grid-area: 2 / 2 / 3 / 3;
+    }
 `
 const Status = styled.div`
     display: flex;
     flex-direction: column;
     grid-area: 1 / 6 / 2 / 7;
+
+    @media screen and (max-width: 1100px) {
+        grid-area: 3 / 2 / 4 / 3;
+    }
 `
 const Phone = styled.div`
     display: flex;
     flex-direction: column;
     grid-area: 2 / 1 / 3 / 2;
+
+    @media screen and (max-width: 1100px) {
+        grid-area: 4 / 2 / 5 / 3;
+    }
 `
 const PESEL = styled.div`
     display: flex;
     flex-direction: column;
     grid-area: 2 / 3 / 3 / 4;
+
+    @media screen and (max-width: 1100px) {
+        grid-area: 3 / 3 / 4 / 4;
+    }
 `
 const IDNumber = styled.div`
     display: flex;
     flex-direction: column;
     grid-area: 2 / 4 / 3 / 5;
+
+    @media screen and (max-width: 1100px) {
+        grid-area: 4 / 1 / 5 / 2;
+    }
 `
 const Paid = styled.div`
     display: flex;
     flex-direction: column;
     grid-area: 2 / 5 / 3 / 6;
+
+    @media screen and (max-width: 1100px) {
+        grid-area: 2 / 3 / 3 / 4;
+    }
 `
 const Comments = styled.div`
     display: flex;
     flex-direction: column;
     grid-area: 2 / 6 / 3 / 8;
+
+    @media screen and (max-width: 1100px) {
+        grid-area: 4 / 3 / 5 / 4;
+    }
 `
 const ReservationOptions = styled.div`
     grid-area: 3 / 1 / 4 / 8;
     display: flex;
     justify-content: center;
+    flex-direction: row;
+
+    @media screen and (max-width: 1100px) {
+        grid-area: 5 / 1 / 6 / 5;
+    }
+
+    @media screen and (max-width: 500px) {
+        flex-direction: column;
+        align-items: center;
+    }
 `
 const CellTitle = styled.span`
    font-weight: 500;
    font-size: ${fontSizes.xm};
    margin-bottom: 5px;
+
+    @media screen and (max-width: 1300px) {
+        font-size: ${fontSizes.s};
+    }
+
+    @media screen and (max-width: 1100px) {
+        font-size: ${fontSizes.xs};
+    }
 `
 const DayArrowWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding-right: 25px;
+    padding-right: 5px;
 `
 const FiltersWrapper = styled.div`
     display: ${props => props.isFilterActive ? "flex" : "none"};
@@ -228,9 +349,17 @@ const SortSelect = styled.select`
     font-size: ${fontSizes.xm};
     padding: 5px 20px;
     transition: all .1s ease-in-out;
+    background-color: white;
 
     &:hover {
         background-color: ${colors.whiteOnHover};
+    }
+
+    @media screen and (max-width: 1100px) {
+        margin-bottom: 10px;
+        font-size: ${fontSizes.xs};
+        height: 30px;
+        padding: 5px 10px;
     }
 `
 const SortOption = styled.option`
@@ -260,6 +389,14 @@ const FiltersToggle = styled.div`
     &:hover {
         background-color: ${props => props.isFilterActive ? colors.primaryHover : colors.whiteOnHover};
     }
+
+    @media screen and (max-width: 1100px) {
+        margin-bottom: 10px;
+        font-size: ${fontSizes.xs};
+        height: 20px;
+        padding: 5px 10px;
+        line-height: 20px;
+    }
 `
 const AddReservationButton = styled(Link)`
     text-decoration: none;
@@ -277,6 +414,13 @@ const AddReservationButton = styled(Link)`
     &:hover {
         background-color: ${colors.primaryHover};
     }
+
+    @media screen and (max-width: 1100px) {
+        font-size: ${fontSizes.xs};
+        height: 20px;
+        padding: 5px 10px;
+        line-height: 20px;
+    }
 `
 const PrevMonth = styled.span`
     cursor: pointer;
@@ -289,6 +433,10 @@ const PrevMonth = styled.span`
     &:hover {
         color: ${colors.primaryHover};
     }
+
+    @media screen and (max-width: 500px) {
+        font-size: ${fontSizes.xxs};
+    }
 `
 const NextMonth = styled.span`
     cursor: pointer;
@@ -300,6 +448,10 @@ const NextMonth = styled.span`
 
     &:hover {
         color: ${colors.primaryHover};
+    }
+
+    @media screen and (max-width: 500px) {
+        font-size: ${fontSizes.xxs};
     }
 `
 const NameFilter = styled.div`
@@ -325,6 +477,18 @@ const MonthPicker = styled.div`
     background-color: white;
     line-height: 40px;
     margin-left: 20px;
+
+    @media screen and (max-width: 1100px) {
+        margin-bottom: 10px;
+        line-height: 20px;
+        font-size: ${fontSizes.xs};
+        height: 20px;
+        padding: 5px 10px;
+    }
+
+    @media screen and (max-width: 500px) {
+        font-size: ${fontSizes.xxs};
+    }
 `
 const YearSelect = styled.select`
     color: ${colors.fontGray};
@@ -333,6 +497,15 @@ const YearSelect = styled.select`
     font-size: ${fontSizes.s};
     cursor: pointer;
     border: 0;
+    background-color: white;
+
+    @media screen and (max-width: 1100px) {
+        font-size: ${fontSizes.xs};
+    }
+
+    @media screen and (max-width: 500px) {
+        font-size: ${fontSizes.xxs};
+    }
 `
 const MonthSelect = styled.select`
     color: ${colors.fontGray};
@@ -341,6 +514,16 @@ const MonthSelect = styled.select`
     font-size: ${fontSizes.s};
     cursor: pointer;
     border: 0;
+    background-color: white;
+    
+    @media screen and (max-width: 1100px) {
+        font-size: ${fontSizes.xs};
+    }
+
+    @media screen and (max-width: 500px) {
+        margin-left: 0px;
+        font-size: ${fontSizes.xxs};
+    }
 `
 const YearOption = styled.option`
 `
@@ -462,7 +645,7 @@ const Reservations = () => {
                         10:00
                     </StartTime>
                     <EstimatedEndTime>
-                        <CellTitle>Orientacyjna godz. spływu</CellTitle>
+                        <CellTitle>Orient. godz. spływu</CellTitle>
                         11:00
                     </EstimatedEndTime>
                     <EndTime>
@@ -538,7 +721,7 @@ const Reservations = () => {
                         10:00
                     </StartTime>
                     <EstimatedEndTime>
-                        <CellTitle>Orientacyjna godz. spływu</CellTitle>
+                        <CellTitle>Orient. godz. spływu</CellTitle>
                         11:00
                     </EstimatedEndTime>
                     <EndTime>

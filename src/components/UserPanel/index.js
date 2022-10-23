@@ -7,29 +7,54 @@ import { useAuth } from "../../context/AuthContext";
 import PTTK from "../../assets/icons/logo.png";
 
 const Panel = styled.div`
-    width: 95%;
+    width: 90%;
     height: 105px;
-    margin: auto;
-    padding: 30px 0px 40px 60px;
+    margin: auto 60px;
+    padding: 30px 0px 40px 0px;
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    @media screen and (max-width: 1000px) {
+        flex-direction: column;
+        margin: auto auto 120px auto;
+    }
+
+    @media screen and (max-width: 600px) {
+        flex-direction: column;
+        margin: auto auto 60px auto;
+    }
 `
 const LoggedAs = styled.p`
     margin: 0;
     padding: 0;
     font-size: ${fontSizes.l};
     font-weight: 600;
+    @media screen and (max-width: 600px) {
+        font-size: ${fontSizes.m};
+    }
+    @media screen and (max-width: 400px) {
+        font-size: ${fontSizes.xm};
+    }
 `
 const Username = styled.span`
     margin-left: 10px;
     color: ${colors.primary};
     font-size: ${fontSizes.l};
     font-weight: 600;
+    @media screen and (max-width: 600px) {
+        font-size: ${fontSizes.m};
+    }
+    @media screen and (max-width: 400px) {
+        font-size: ${fontSizes.xm};
+    }
 `
 const Controls = styled.div`
     display: flex;
     flex-direction: row;
+    @media screen and (max-width: 1000px) {
+        margin-top: 20px;
+    }
 `
 const SignToggle = styled(Link)`
     text-align: center;
@@ -51,6 +76,14 @@ const SignToggle = styled(Link)`
 
     &:hover {
         background-color: ${colors.whiteOnHover};
+    }
+
+    @media screen and (max-width: 1000px) {
+        margin-left: 0px;
+    }
+
+    @media screen and (max-width: 400px) {
+        font-size: ${fontSizes.xs};
     }
 `
 const Alerts = styled(Link)`
@@ -81,6 +114,10 @@ const AlertsAmount = styled.span`
     font-weight: 600;
     margin: 0px 0px 0px 8px;
     font-size: ${fontSizes.s};
+
+    @media screen and (max-width: 400px) {
+        font-size: ${fontSizes.xs};
+    }
 `
 const Logo = styled.div`
     cursor: pointer;
@@ -88,9 +125,15 @@ const Logo = styled.div`
     flex-direction: column;
     align-items: center;
     margin-right: 30px;
+    @media screen and (max-width: 1000px) {
+        margin-right: 0px;
+    }
 `
 const LogoImage = styled.img`
     height: 80px;
+    @media screen and (max-width: 600px) {
+        height: 60px;
+    }
 `
 const AppName = styled.span`
     margin-top: 5px;
@@ -98,6 +141,11 @@ const AppName = styled.span`
     font-weight: 600;
     color: ${colors.fontGray};
     letter-spacing: 1px;
+
+    @media screen and (max-width: 600px) {
+        font-size: ${fontSizes.xs};
+        margin-bottom: 5px;
+    }
 `
 
 

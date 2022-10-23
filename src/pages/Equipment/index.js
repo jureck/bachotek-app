@@ -17,6 +17,12 @@ const ListOptions = styled.section`
     flex-direction: row;
     margin-top: 30px;
     margin-bottom: 20px;
+
+    @media screen and (max-width: 600px) {
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 10px;
+    }
 `
 const SortSelect = styled.select`
     cursor: pointer;
@@ -27,9 +33,15 @@ const SortSelect = styled.select`
     font-size: ${fontSizes.xm};
     padding: 5px 20px;
     transition: all .1s ease-in-out;
+    background-color: white;
 
     &:hover {
         background-color: ${colors.whiteOnHover};
+    }
+
+    @media screen and (max-width: 400px) {
+        font-size: ${fontSizes.s};
+        padding: 3px 10px;
     }
 `
 const SortOption = styled.option`
@@ -59,6 +71,11 @@ const FiltersToggle = styled.div`
     &:hover {
         background-color: ${props => props.isFilterActive ? colors.primaryHover : colors.whiteOnHover};
     }
+
+    @media screen and (max-width: 400px) {
+        font-size: ${fontSizes.s};
+        padding: 0px 5px;
+    }
 `
 const EditEquipmentButton = styled(Link)`
     text-decoration: none;
@@ -76,6 +93,15 @@ const EditEquipmentButton = styled(Link)`
     &:hover {
         background-color: ${colors.primaryHover};
     }
+
+    @media screen and (max-width: 600px) {
+        margin-top: 10px;
+    }
+
+    @media screen and (max-width: 400px) {
+        font-size: ${fontSizes.s};
+        padding: 0px 10px;
+    }
 `
 const FiltersWrapper = styled.div`
     display: ${props => props.isFilterActive ? "flex" : "none"};
@@ -88,6 +114,11 @@ const FiltersWrapper = styled.div`
     padding: 20px 40px;
     margin-top: 20px;
     margin-bottom: 20px;
+
+    @media screen and (max-width: 400px) {
+        flex-direction: column;
+        align-items: center;
+    }
 `
 const EquipmentsFilter = styled.div`
     display: flex;
@@ -95,15 +126,31 @@ const EquipmentsFilter = styled.div`
     justify-content: flex-start;
     margin-right: 50px;
     max-width: 220px;
+
+    @media screen and (max-width: 400px) {
+        align-items: center;
+        margin-right: 0px;
+    }
 `
 const StatusFilter = styled.div`
     max-width: 290px;
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (max-width: 400px) {
+        margin-top: 20px;
+        align-items: center;
+    }
 `
 const FilterTitle = styled.div`
     font-weight: 500;
     font-size: ${fontSizes.xm};
     margin-bottom: 5px;
     text-align: center;
+
+    @media screen and (max-width: 400px) {
+        font-size: ${fontSizes.s};
+    }
 `
 const InputWrapper = styled.div`
     width: 100%;
@@ -111,6 +158,10 @@ const InputWrapper = styled.div`
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: start;
+
+    @media screen and (max-width: 400px) {
+        justify-content: center;
+    }
 `
 const EquipmentList = styled.div`
     display: flex;
@@ -129,16 +180,42 @@ const Item = styled.div`
     height: 60px;
     margin-bottom: 10px;
     background-color: ${props => colors.equipment[props.status]};
+
+    @media screen and (max-width: 1000px) {
+        width: 80%;
+    }
+
+    @media screen and (max-width: 800px) {
+        width: 90%;
+    }
+
+    @media screen and (max-width: 600px) {
+        flex-wrap: wrap;
+        height: 120px;
+        padding: 10px 0px;
+    }
 `
 const ItemType = styled.div`
     display: flex;
     flex-direction: column;
     flex-basis: 25%;
+
+    @media screen and (max-width: 600px) {
+        flex-basis: 35%;
+    }
+
+    @media screen and (max-width: 450px) {
+        flex-basis: 45%;
+    }
 `
 const ItemTypeTitle = styled.span`
     font-weight: 500;
     font-size: ${fontSizes.xm};
     margin-bottom: 5px;
+
+    @media screen and (max-width: 600px) {
+        font-size: ${fontSizes.s};
+    }
 `
 const ItemTypeContent = styled.span`
     font-size: ${fontSizes.s};
@@ -147,11 +224,24 @@ const Number = styled.div`
     display: flex;
     flex-direction: column;
     flex-basis: 30%;
+
+    @media screen and (max-width: 600px) {
+        flex-basis: 35%;
+        margin-left: 70px;
+    }
+
+    @media screen and (max-width: 450px) {
+        margin-left: 50px;
+    }
 `
 const NumberTitle = styled.span`
     font-weight: 500;
     font-size: ${fontSizes.xm};
     margin-bottom: 5px;
+
+    @media screen and (max-width: 600px) {
+        font-size: ${fontSizes.s};
+    }
 `
 const NumberContent = styled.span`
     font-size: ${fontSizes.s};
@@ -160,11 +250,23 @@ const Status = styled.div`
     display: flex;
     flex-direction: column;
     flex-basis: 30%;
+
+    @media screen and (max-width: 600px) {
+        flex-basis: 35%;
+    }
+
+    @media screen and (max-width: 450px) {
+        flex-basis: 45%;
+    }
 `
 const StatusTitle = styled.span`
     font-weight: 500;
     font-size: ${fontSizes.xm};
     margin-bottom: 5px;
+
+    @media screen and (max-width: 600px) {
+        font-size: ${fontSizes.s};
+    }
 `
 const StatusContent = styled.span`
     font-size: ${fontSizes.s};
@@ -173,6 +275,15 @@ const ItemIcon = styled.img`
     height: 65px;
     flex-basis: 6%;
     margin-right: 30px;
+
+    @media screen and (max-width: 600px) {
+        margin-left: 70px;
+        margin-right: 40px;
+    }
+
+    @media screen and (max-width: 450px) {
+        margin-left: 50px;
+    }
 `
 
 const Equipment = () => {

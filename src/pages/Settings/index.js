@@ -35,13 +35,26 @@ const EquipmentContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @media screen and (max-width: 1000px) {
+       width: 50%;
+    }
+
+    @media screen and (max-width: 600px) {
+       width: 100%;
+    }
 `
 const EquipmentWrapper = styled.div`
-    width: 1000px;
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     margin-bottom: 20px;
+
+    @media screen and (max-width: 600px) {
+        flex-direction: column;
+    }
 `
 
 
@@ -51,13 +64,13 @@ const Settings = () => {
     
     React.useEffect(() => {
         if(username !== "Admin") navigate("/");
-    }, []);
+    }, [username, navigate]);
 
     return ( 
         <PageContent>
             <Wrapper>
                 <Header>Alerty</Header>
-                <Input type="number" min="1" width="60" name="alertTime" label="Ile minut po przekroczeniu czasu wyskoczy alert?"/>
+                <Input type="number" min="1" width="60" name="alertTime" label="Alert po ilu minutach?"/>
                 <Header>Cennik</Header>
                 <EquipmentWrapper>
                     <EquipmentContainer>

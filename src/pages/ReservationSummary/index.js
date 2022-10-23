@@ -16,18 +16,31 @@ const Wrapper = styled.div`
     flex-direction: row;
     background-color: white;
     border-radius: 20px;
+
+    @media screen and (max-width: 1200px) {
+        flex-direction: column;
+        align-items: center;
+    }
 `
 const UserData = styled.div`
     width: 35%;
     display: flex;
     flex-direction: column;
     margin: 40px 20px;
+
+    @media screen and (max-width: 1200px) {
+        width: 90%;
+    }
 `
 const ReservationDetails = styled.div`
     width: 65%;
     display: flex;
     flex-direction: column;
     margin-right: 20px;
+
+    @media screen and (max-width: 1200px) {
+        width: 90%;
+    }
 `
 const DataWrapper = styled.div`
     width: 100%;
@@ -43,12 +56,30 @@ const DataTitle = styled.p`
     font-size: ${fontSizes.s};
     font-weight: 500;
     width: 190px;
+    min-width: 170px;
     margin: 2px 0px;
+
+    @media screen and (max-width: 500px) {
+        font-size: ${fontSizes.xs};
+        min-width: 150px;
+    }
+
+    @media screen and (max-width: 400px) {
+        font-size: ${fontSizes.xxs};
+    }
 `
 const DataContent = styled.p`
     font-size: ${fontSizes.s};
     width: 250px;
     margin: 2px 0px 2px 10px;
+
+    @media screen and (max-width: 500px) {
+        font-size: ${fontSizes.xs};
+    }
+
+    @media screen and (max-width: 400px) {
+        font-size: ${fontSizes.xxs};
+    }
 `
 const EndTimeContainer = styled.div`
     display: flex;
@@ -86,6 +117,14 @@ const TableHeader = styled.p`
     width: 20%;
     text-align: center;
     margin: 10px 0px;
+
+    @media screen and (max-width: 700px) {
+        font-size: ${fontSizes.xs};
+    } 
+
+    @media screen and (max-width: 500px) {
+        font-size: ${fontSizes.xxs};
+    } 
 `
 const Headers = styled.div`
     display: flex;
@@ -98,25 +137,47 @@ const Item = styled.div`
     font-weight: 500;
     color: ${colors.fontGray};
     margin-bottom: 5px;
+
+    @media screen and (max-width: 700px) {
+        font-size: ${fontSizes.xs};
+        align-items: center;
+    } 
 `
 const ItemImage = styled.div`
     background-color: ${colors.primary};
     border-radius: 20px;
-    width: 20%;
+    width: 16%;
     height: 80px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-left: 20px;
+
+    @media screen and (max-width: 500px) {
+        height: 50px;
+        border-radius: 15px;
+        width: 20%;
+        margin-left: 0px;
+    } 
 `
 const ItemLogo = styled.img`
     width: 50px;
+
+    @media screen and (max-width: 500px) {
+        width: 30px;
+    } 
 `
 const ItemName = styled.span`
     color: white;
     font-weight: 500;
     margin-top: 10px;
     font-size: ${fontSizes.s};
+
+    @media screen and (max-width: 500px) {
+        margin-top: 5px;
+        font-size: ${fontSizes.xxs};
+    } 
 `
 const ItemAmount = styled.span`
     width: 20%;

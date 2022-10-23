@@ -7,6 +7,17 @@ const Info = styled.p`
     width: 95%;
     padding-left: 60px;
     margin: auto;
+
+    @media screen and (max-width: 800px) {
+        padding-left: 0px;
+        font-size: ${fontSizes.xm};
+        text-align: center;
+    }
+
+    @media screen and (max-width: 600px) {
+        font-size: ${fontSizes.s};
+    }
+
 `
 
 const UnsignedHomepage = () => {

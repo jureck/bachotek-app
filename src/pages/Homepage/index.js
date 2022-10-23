@@ -8,6 +8,10 @@ import { useAuth } from "../../context/AuthContext";
 const Tiles = styled.section`
     display: flex;
     flex-direction: row;
+
+    @media screen and (max-width: 1000px) {
+        flex-wrap: wrap;
+    }
     
 `
 const Tile = styled(Link)`
@@ -23,6 +27,18 @@ const Tile = styled(Link)`
 
     &:hover {
         background-color: ${colors.whiteOnHover};
+    }
+
+    @media screen and (max-width: 1000px) {
+        margin-right: 20px;
+        width: 290px;
+        margin-bottom: 20px;
+    }
+
+    @media screen and (max-width: 800px) {
+        margin-right: 0px;
+        width: 100%;
+        margin-bottom: 20px;
     }
 `
 const Title = styled.p`

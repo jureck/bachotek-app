@@ -25,12 +25,21 @@ const User = styled.div`
     &:hover {
         background-color: ${props => props.isSelected ? colors.primaryHover : colors.secondaryHover};
     }
+
+    
+    @media screen and (max-width: 600px) {
+        margin: 20px 10px;
+    }
 `
 const UsersWrapper =  styled.div`
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
+
+    @media screen and (max-width: 600px) {
+        flex-direction: column;
+    }
 `
 const PasswordWrapper = styled.div`
     width: 100%;

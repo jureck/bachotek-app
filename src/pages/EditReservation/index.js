@@ -17,12 +17,28 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: row;
     padding: 40px 20px;
+
+    @media screen and (max-width: 1300px) {
+        flex-direction: column;
+    }
 `
 const Forms = styled.div`
     width: 40%;
     height: 100%;
     display: flex;
     flex-direction: column;
+
+    @media screen and (max-width: 1300px) {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+        margin-bottom: 50px;
+    }
+
+    @media screen and (max-width: 1000px) {
+        flex-direction: column;
+        align-items: center;
+    }
 `
 const PersonalData = styled.div`
     display: flex;
@@ -34,11 +50,27 @@ const ReservationDetails = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+
+    @media screen and (max-width: 1300px) {
+        margin-top: 0px;
+    }
+
+    @media screen and (max-width: 1000px) {
+        margin-top: 50px;
+    }
 `
 const DiscountOptions = styled.div`
     display: flex;
     flex-direction: row;
     width: 210px;
+
+    @media screen and (max-width: 700px) {
+        width: 170px;
+    }
+
+    @media screen and (max-width: 500px) {
+        width: 150px;
+    }
 `
 const DiscountSelect = styled.div`
     display: flex;
@@ -48,6 +80,16 @@ const DiscountLabel = styled.span`
     font-size: ${fontSizes.s};
     margin-right: 20px;
     font-weight: 500;
+    line-height: 30px;
+
+    @media screen and (max-width: 700px) {
+        font-size: ${fontSizes.xs};
+        margin-right: 15px;
+    }
+
+    @media screen and (max-width: 500px) {
+        font-size: ${fontSizes.xxs};
+    }
 `
 const Yes = styled.div`
     cursor: pointer;
@@ -59,6 +101,11 @@ const Yes = styled.div`
     line-height: 30px;
     text-align: center;
     font-weight: 500;
+
+    @media screen and (max-width: 500px) {
+        font-size: ${fontSizes.xxs};
+        width: 50px;
+    }
 `
 const No = styled.div`
     cursor: pointer;
@@ -71,6 +118,11 @@ const No = styled.div`
     text-align: center;
     margin-left: 5px;
     font-weight: 500;
+
+    @media screen and (max-width: 500px) {
+        font-size: ${fontSizes.xxs};
+        width: 50px;
+    }
 `
 const OrderContent = styled.div`
     width: 60%;
@@ -79,6 +131,10 @@ const OrderContent = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    @media screen and (max-width: 1300px) {
+        width: 100%;
+    }
 `
 const Header = styled.header`
     text-align: center;
@@ -93,6 +149,10 @@ const ProductWrapper = styled.div`
     align-items: center;
     margin: 0px 20px;
     max-width: 140px;
+
+    @media screen and (max-width: 800px) {
+        margin-bottom: 30px;
+    }
 `
 const ProductImage = styled.div`
     background-color: ${colors.primary};
@@ -161,6 +221,10 @@ const Products = styled.div`
     flex-direction: row;
     justify-content: center;
     width: 100%;
+
+    @media screen and (max-width: 800px) {
+        flex-wrap: wrap;
+    }
 `
 const BoatId = styled.div`
     cursor: pointer;
@@ -289,7 +353,7 @@ const EditReservation = () => {
                     </Products>
 
                     <CostSummary>
-                        Do zapłaty (jeśli nie będzie więcej niż 30 minut opóźnienia): 
+                        Do zapłaty: 
                         <Cost>40 zł</Cost>
                     </CostSummary>
                     <Button text="Zapisz zmiany" bgColor={colors.primary} textColor="white" hoverColor={colors.primaryHover}/>

@@ -14,9 +14,7 @@ import EditReservation from "./pages/EditReservation";
 import ReservationSummary from "./pages/ReservationSummary";
 import UnsignedHomepage from "./pages/UnsignedHomepage";
 import SignIn from "./pages/SignIn";
-import { AuthProvider } from "./context/AuthContext";
 import { useAuth } from "./context/AuthContext";
-import { auth } from "./services/auth/config";
 import Settings from "./pages/Settings";
 
 const AppContainer = styled.div`

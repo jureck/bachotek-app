@@ -17,13 +17,26 @@ const AlertTime = styled.span`
     margin-top: 20px;
     margin-left: 40px;
     font-weight: 500;
+
+    @media screen and (max-width: 500px) {
+        font-size: ${fontSizes.xs};
+        margin-left: 25px;
+    }
 `
 const AlertContent = styled.div`
     display: flex;
     flex-direction: row;
     background-color: white;
     border-radius: 20px;
-    min-height: 90px;
+    min-height: 70px;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    @media screen and (max-width: 1100px) {
+        min-height: 150px;
+        flex-wrap: wrap;
+    }
 `
 const Column = styled.div`
     display: flex;
@@ -31,40 +44,102 @@ const Column = styled.div`
     width: 22%;
     padding: 1%;
 
+    @media screen and (max-width: 1100px) {
+        width: 30%;
+    }
+
+    @media screen and (max-width: 800px) {
+        width: 46%;
+    }
+
+    @media screen and (max-width: 600px) {
+        margin-bottom: 5px;
+    }
+
     &:first-child {
         width: 10%;
-        padding-left: 40px;
+
+        @media screen and (max-width: 1100px) {
+            width: 30%;
+        }
+
+        @media screen and (max-width: 800px) {
+            width: 46%;
+        }
     }
 
     &:nth-child(2) {
         width: 15%;
+
+        @media screen and (max-width: 1100px) {
+            width: 30%;
+        }
+
+        @media screen and (max-width: 800px) {
+            width: 46%;
+        }
     }
 
     &:nth-child(3) {
         width: 15%;
+
+        @media screen and (max-width: 1100px) {
+            width: 30%;
+        }
+
+        @media screen and (max-width: 800px) {
+            width: 80%;
+        }
     }
 `
 const ColumnTitle = styled.span`
     font-weight: 500;
     font-size: ${fontSizes.xm};
     margin-bottom: 5px;
+
+    @media screen and (max-width: 500px) {
+        font-size: ${fontSizes.xs};
+    }
 `
 const ColumnContent = styled.span`
     font-size: ${fontSizes.s};
+
+    @media screen and (max-width: 500px) {
+        font-size: ${fontSizes.xxs};
+    }
 `
 const CloseWrapper = styled.div`
     width: 5%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
+    @media screen and (max-width: 1100px) {
+        position: absolute;
+        right: 5%;
+        height: 60px;
+    }
+
+    @media screen and (max-width: 600px) {
+        height: 35px;
+    }
 `
 const CloseIcon = styled.img`
+    display: block;
     height: 30px;
     cursor: pointer;
     margin-right: 40px;
+
+    @media screen and (max-width: 1100px) {
+        margin-right: 0px;
+    }
+
+    @media screen and (max-width: 600px) {
+        height: 20px;
+    }
 `
 
-const Alerts = (props) => {
+const Alerts = () => {
 
     const navigate = useNavigate();
     const alertsAmount = 1;
@@ -84,7 +159,7 @@ const Alerts = (props) => {
                     </Column>
                     <Column>
                         <ColumnTitle>Imię i nazwisko</ColumnTitle>
-                        <ColumnContent>Jacek Isicki</ColumnContent>
+                        <ColumnContent>Jarosław Iwankiewicz</ColumnContent>
                     </Column>
                     <Column>
                         <ColumnTitle>Typ sprzętu</ColumnTitle>
@@ -103,7 +178,6 @@ const Alerts = (props) => {
                     </CloseWrapper>
                 </AlertContent>
             </AlertWrapper>
-
             
         </PageContent>
     );

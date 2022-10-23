@@ -52,6 +52,12 @@ const EquipmentContainer = styled.div`
     display: flex;
     flex-direction: row;
     margin-bottom: 150px;
+
+    @media screen and (max-width: 900px) {
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
 `
 const Equipment = styled.div`
     display: flex;
@@ -59,6 +65,7 @@ const Equipment = styled.div`
     align-items: center;
     margin-left: 5px;
     margin-right: 5px;
+    margin-bottom: 30px;
 `
 const State = styled.span`
     margin-bottom: 5px;

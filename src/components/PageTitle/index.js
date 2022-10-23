@@ -18,12 +18,22 @@ const Arrow = styled.img`
     height: 25px;
     margin-left: 35px;
     margin-right: 30px;
+
+    @media screen and (max-width: 500px) {
+        height: 20px;
+        margin-left: 10px;
+        margin-right: 20px;
+    }
 `
 const Title = styled.p`
     padding: 0;
     margin: 0;
     font-size: ${fontSizes.m};
     font-weight: 600;
+
+    @media screen and (max-width: 400px) {
+        font-size: ${fontSizes.xm};
+    }
 `
 
 const PageTitle = () => {
