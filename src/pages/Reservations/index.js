@@ -121,7 +121,7 @@ const Reservation = styled.div`
     border-radius: 20px;
     margin-top: 10px;
     overflow: hidden;
-    height: ${props => props.array.includes(props.id) ? "auto" : "50px"};
+    height: ${props => props.isExpanded ? "auto" : "50px"};
     width: 100%;
 
     -webkit-user-select: none;
@@ -133,7 +133,7 @@ const Reservation = styled.div`
 
     @media screen and (max-width: 1300px) {
         font-size: ${fontSizes.xs};
-        height: ${props => props.array.includes(props.id) ? "auto" : "40px"};
+        height: ${props => props.isExpanded ? "auto" : "40px"};
     }
 
     @media screen and (max-width: 1100px) {
@@ -148,7 +148,7 @@ const Reservation = styled.div`
     }
 
     @media screen and (max-width: 550px) {
-        height: ${props => props.array.includes(props.id) ? "auto" : "60px"};
+        height: ${props => props.isExpanded ? "auto" : "60px"};
     }
 
     @media screen and (max-width: 500px) {
@@ -535,18 +535,16 @@ const MonthOption = styled.option`
 const Reservations = () => {
 
     const reservationStatus = "active";
-    const [expandedReservations, setExpandedReservations] = useState([]);
-    const [expandedDays, setExpandedDays] = useState([2]);
+    const [expandedReservation, setExpandedReservation] = useState(0);
+    const [expandedDay, setExpandedDay] = useState(2);
     const [isFilterActive, setIsFilterActive] = useState(false);
 
 
     const toggleExpansion = (type, id) => {
         if(type === "reservation") {    
-            if(expandedReservations.includes(id))   setExpandedReservations([...expandedReservations.filter((el) => el !== id)]);
-            else setExpandedReservations([...expandedReservations, id]);
+            if(expandedReservation !== id)   setExpandedReservation(id);
         } else {
-            if(expandedDays.includes(id))   setExpandedDays([...expandedDays.filter((el) => el !== id)]);
-            else setExpandedDays([...expandedDays, id]);
+            if(expandedDay !== id)   setExpandedDay(id);
         }
         
     }
@@ -621,16 +619,16 @@ const Reservations = () => {
                     Październik 2022
                     <NextMonth>NASTĘPNY</NextMonth>
                 </Month>
-                <Day onClick={() => toggleExpansion("day", 2)}  array={expandedDays}>
+                <Day onClick={() => toggleExpansion("day", 2)}  isExpanded={expandedDay === 2}>
                     <WeekDay>Niedziela</WeekDay>
                     <DayName>2 października</DayName>
                     <DayArrowWrapper>
-                        <Arrow src={expandedDays.includes(2) ? ArrowUp : ArrowDown} />
+                        <Arrow src={expandedDay === 2 ? ArrowUp : ArrowDown} />
                     </DayArrowWrapper>
                 </Day>
-                {expandedDays.includes(2) ?
+                {expandedDay === 2 ?
                     <>
-                    <Reservation onClick={() => toggleExpansion("reservation", 1)} id={1} array={expandedReservations} reservationStatus={reservationStatus}>
+                    <Reservation onClick={() => toggleExpansion("reservation", 1)} id={1} isExpanded={expandedReservation === 1} reservationStatus={reservationStatus}>
                     <Name>
                         <CellTitle>Imię i nazwisko</CellTitle>
                         Jacek Isicki
@@ -657,7 +655,7 @@ const Reservations = () => {
                         W trakcie
                     </Status>
                     <ReservationArrowWrapper>
-                        <Arrow src={expandedReservations.includes(1) ? ArrowUp : ArrowDown}/>
+                        <Arrow src={expandedReservation === 1 ? ArrowUp : ArrowDown}/>
                     </ReservationArrowWrapper>
 
                     <Phone>
@@ -707,7 +705,7 @@ const Reservations = () => {
                     </ReservationOptions>
                 </Reservation>
 
-                <Reservation id={2} array={expandedReservations} reservationStatus={reservationStatus}>
+                <Reservation id={2} onClick={() => toggleExpansion("reservation", 2)} isExpanded={expandedReservation === 2} reservationStatus={reservationStatus}>
                     <Name>
                         <CellTitle>Imię i nazwisko</CellTitle>
                         Jacek Isicki
@@ -733,7 +731,7 @@ const Reservations = () => {
                         W trakcie
                     </Status>
                     <ReservationArrowWrapper>
-                        <Arrow onClick={() => toggleExpansion("reservation", 2)} src={expandedReservations.includes(2) ? ArrowUp : ArrowDown}/>
+                        <Arrow onClick={() => toggleExpansion("reservation", 2)} src={expandedReservation === 2 ? ArrowUp : ArrowDown}/>
                     </ReservationArrowWrapper>
 
                     <Phone>
