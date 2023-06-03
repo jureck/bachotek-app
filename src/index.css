@@ -1,0 +1,43 @@
+@font-face {
+  font-family: 'myFont';
+  src: url(./assets/fonts/Roboto-Regular.woff2);
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'myFont';
+  src: url(./assets/fonts/Roboto-Medium.woff2);
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'myFont';
+  src: url(./assets/fonts/Roboto-Bold.woff2);
+  font-weight: 600;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  font-family: 'myFont', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: '#EBEBEB';
+}
+
+button {
+  font-family: 'myFont', sans-serif;
+}
+
+select {
+  font-family: 'myFont', sans-serif;
+}
+
+br {
+  display: block; /* makes it have a width */
+  content: ""; /* clears default height */
+  margin-top: 0; /* change this to whatever height you want it */
+}
+
