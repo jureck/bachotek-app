@@ -31,10 +31,10 @@ function App() {
   const { username } = useAuth();
   const [alertsAmount, setAlertsAmount] = useState(0);
   const [alertTime, setAlertTime] = useState(30);
-  console.log(window.location.href);
+  const location = "https://bachotek-app-api.onrender.com";
   const getReservations = async () => {
     console.log("elo");
-      const req = await axios.get('http://127.0.0.1:3000/api/reservations', {
+      const req = await axios.get(`${location}/api/reservations`, {
           params: {
               date: `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`,  
               status: "open",
@@ -51,8 +51,8 @@ function App() {
       currentMinutes = ("0" + currentMinutes).slice(-2);
       reservations.map(async (r, q) => {
           if(r.approxDate < `${currentHours}:${currentMinutes}`) {
-              const client = await axios.get(`http://127.0.0.1:3000/api/clients/${r.clientId}`);
-              await axios.post('http://127.0.0.1:3000/api/alerts', {
+              const client = await axios.get(`${location}/api/clients/${r.clientId}`);
+              await axios.post(`${location}/api/alerts`, {
                   addedAt: convertToISODate(new Date()),
                   name: client.data.name,
                   approxTime: r.approxDate,
@@ -64,7 +64,7 @@ function App() {
   }
 
   const getAlertsAmount = async () => {
-    const r = await axios.get('http://127.0.0.1:3000/api/alerts');
+    const r = await axios.get(`${location}/api/alerts`);
     setAlertsAmount(r.data.length);
   }
   
@@ -84,7 +84,7 @@ function App() {
 
   React.useEffect(() => {
     const fetch = async () => {
-      const res = await axios.get('http://127.0.0.1:3000/api/settings');
+      const res = await axios.get(`${location}/api/settings`);
       setAlertTime(res.data[0].alertTime);
     }
 
