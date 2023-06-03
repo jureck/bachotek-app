@@ -33,7 +33,6 @@ function App() {
   const [alertTime, setAlertTime] = useState(30);
   const location = "https://bachotek-app-api.onrender.com";
   const getReservations = async () => {
-    console.log("elo");
       const req = await axios.get(`${location}/api/reservations`, {
           params: {
               date: `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`,  
