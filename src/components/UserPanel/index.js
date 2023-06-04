@@ -58,7 +58,37 @@ const Controls = styled.div`
         margin-top: 20px;
     }
 `
-const SignToggle = styled(Link)`
+const SignToggle = styled.div`
+    text-align: center;
+    text-decoration: none;
+    line-height: 35px;
+    cursor: pointer;
+    display: block;
+    border: 0;
+    background-color: white;
+    color: black;
+    font-weight: 500;
+    height: 35px;
+    width: 140px;
+    font-size: ${fontSizes.s};
+    border-radius: 10px;
+    margin-left: 60px;
+    padding: 0;
+    transition: all .1s ease-in-out;
+
+    &:hover {
+        background-color: ${colors.whiteOnHover};
+    }
+
+    @media screen and (max-width: 1000px) {
+        margin-left: 0px;
+    }
+
+    @media screen and (max-width: 400px) {
+        font-size: ${fontSizes.xs};
+    }
+`
+const SignInToggle = styled(Link)`
     text-align: center;
     text-decoration: none;
     line-height: 35px;
@@ -157,9 +187,10 @@ const UserPanel = ({ alertsAmount }) => {
     const navigate = useNavigate();
     
     const handleSignout = async () => {
+        navigate("/");
         try {
             userSignOut();
-            navigate("/");
+            
         } catch(err) {
             console.log(err);
         }
@@ -196,7 +227,7 @@ const UserPanel = ({ alertsAmount }) => {
                         <Username>niezalogowany</Username>
                     </LoggedAs>
                     <Controls>
-                        <SignToggle to="/zaloguj-sie">Zaloguj się</SignToggle>
+                        <SignInToggle to="/zaloguj-sie">Zaloguj się</SignInToggle>
                     </Controls>
                 </Panel>
         }

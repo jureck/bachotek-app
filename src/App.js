@@ -108,7 +108,7 @@ function App() {
       <Route path="/" element={<LayoutWithUserPanel />}>
         <Route path="/" element={<Homepage />} />
         <Route path="/alerty" element={<Alerts />} />
-        <Route path="/rezerwacje" element={<Reservations />} />
+        <Route path="/rezerwacje" element={<Reservations username={username}/>} />
         <Route path="/nowa-rezerwacja" element={<NewReservation />} />
         <Route path="/edytuj-rezerwacje/:id" element={<EditReservation />} />
         <Route path="/sprzet" element={<Equipment />} />

@@ -595,7 +595,7 @@ const DeleteButtons = styled.div`
 
 
 
-const Reservations = () => {
+const Reservations = ({ username }) => {
     const location = "https://bachotek-app-api.onrender.com";
     const emptyMonth = {1:[],2:[],3:[],4:[],5:[],6:[],7:[],8:[],9:[],10:[],
         11:[],12:[],13:[],14:[],15:[],16:[],17:[],18:[],19:[],20:[],21:[],22:[],23:[],24:[],25:[],26:[],27:[],28:[],29:[],30:[],31:[]};
@@ -873,7 +873,7 @@ const Reservations = () => {
     React.useEffect(() => {
         getReservationsForDay(expandedDay);
     }, [typeFilters, statusFilters, timeFilters, paidFilters, currentYear, currentMonth, nameSearch, sortType])
-    
+
     return ( 
         <>
         <PageContent>
@@ -1058,13 +1058,17 @@ const Reservations = () => {
                                                         text="Edytuj"
                                                     />
                                                 </EditLink>
-                                                <Button 
-                                                    onClick={() => {setResToDelete(res.rId); setDeleteModal(!deleteModal)}}
-                                                    bgColor="#F18686"
-                                                    textColor="white"
-                                                    hoverColor={colors.lightRedHover}
-                                                    text="Usuń"
-                                                />
+                                                {username === "Admin" ?  
+                                                    <Button 
+                                                        onClick={() => {setResToDelete(res.rId); setDeleteModal(!deleteModal)}}
+                                                        bgColor="#F18686"
+                                                        textColor="white"
+                                                        hoverColor={colors.lightRedHover}
+                                                        text="Usuń"
+                                                    />
+                                                    : null
+                                                }
+                                               
                                             </ReservationOptions>
                                         </Reservation>
                                 })}

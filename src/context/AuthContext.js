@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged} from "firebase/auth";
 import { auth } from "../services/auth/config";
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = React.createContext();
 
@@ -10,7 +11,6 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }) => {
-
     const [username, setUsername] = useState("");
 
     const uidList = {
