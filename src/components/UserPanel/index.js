@@ -159,6 +159,7 @@ const UserPanel = ({ alertsAmount }) => {
     const handleSignout = async () => {
         try {
             userSignOut();
+            navigate("/");
         } catch(err) {
             console.log(err);
         }
