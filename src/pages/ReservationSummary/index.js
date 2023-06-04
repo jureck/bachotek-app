@@ -269,7 +269,7 @@ const ReservationSummary = () => {
     const [paid, setPaid] = useState(0);
     const [cost, setCost] = useState(0);
     const [isDiscount, setIsDiscount] = useState(false);
-    const location = process.env.API_URL || "https://bachotek-app-api.onrender.com";
+    const location = process.env.API_URL || "http://127.0.0.1:3000";
 
     const endReservation = async () => {
         if(endTime.length > 1) {

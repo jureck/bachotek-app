@@ -52,7 +52,7 @@ const Clients = () => {
     const navigate = useNavigate();
     const [name, setName] = useState("");
     const [clients, setClients] = useState([]);
-    const location = process.env.API_URL || "https://bachotek-app-api.onrender.com";
+    const location = process.env.API_URL || "http://127.0.0.1:3000";
 
     const deleteClient = async (id) => {
         const res = await axios.delete(`${location}/api/clients/${id}`);
