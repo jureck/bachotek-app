@@ -290,7 +290,7 @@ const ItemIcon = styled.img`
 
 const Equipment = () => {
     const [isFilterActive, setIsFilterActive] = useState(false);
-    const location = "https://bachotek-app-api.onrender.com";
+    const location = "https://bachotek-app-api-production.up.railway.app"
 
     const [typeFilters, setTypeFilters] = useState({
         kayak: true,

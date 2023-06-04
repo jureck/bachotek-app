@@ -52,7 +52,7 @@ const Clients = () => {
     const navigate = useNavigate();
     const [name, setName] = useState("");
     const [clients, setClients] = useState([]);
-    const location = "https://bachotek-app-api.onrender.com";
+    const location = "https://bachotek-app-api-production.up.railway.app"
 
     const deleteClient = async (id) => {
         const res = await axios.delete(`${location}/api/clients/${id}`);

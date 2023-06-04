@@ -269,7 +269,7 @@ const ReservationSummary = () => {
     const [paid, setPaid] = useState(0);
     const [cost, setCost] = useState(0);
     const [isDiscount, setIsDiscount] = useState(false);
-    const location = "https://bachotek-app-api.onrender.com";
+    const location = "https://bachotek-app-api-production.up.railway.app"
 
     const endReservation = async () => {
         if(endTime.length > 1) {

@@ -31,7 +31,7 @@ function App() {
   const { username } = useAuth();
   const [alertsAmount, setAlertsAmount] = useState(0);
   const [alertTime, setAlertTime] = useState(30);
-  const location = "https://bachotek-app-api.onrender.com";
+  const location = "https://bachotek-app-api-production.up.railway.app"
   const getReservations = async () => {
       const req = await axios.get(`${location}/api/reservations`, {
           params: {
