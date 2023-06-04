@@ -113,7 +113,7 @@ const CloseIcon = styled.img`
 const Alerts = () => {
 
     const [alerts, setAlerts] = useState([]);
-    const location = process.env.API_URL || "http://127.0.0.1:3000";
+    const location = "https://bachotek-app-api.onrender.com";
 
     const deleteAlert = async (id) => {
         const r = await axios.delete(`${location}/api/alerts/${id}`);

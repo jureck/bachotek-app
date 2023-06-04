@@ -62,7 +62,7 @@ const EquipmentWrapper = styled.div`
 const Settings = () => {
     const { username } = useAuth();
     const navigate = useNavigate();
-    const location = process.env.API_URL || "http://127.0.0.1:3000";
+    const location = "https://bachotek-app-api.onrender.com";
     const [alertTime, setAlertTime] = useState();   
     const [priceList, setPriceList] = useState({
         hour: {
