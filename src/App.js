@@ -31,7 +31,7 @@ function App() {
   const { username } = useAuth();
   const [alertsAmount, setAlertsAmount] = useState(0);
   const [alertTime, setAlertTime] = useState(30);
-  const location = process.env.API_URL || "http://127.0.0.1:3000";
+  const location = "https://bachotek-app-api.onrender.com";
   const getReservations = async () => {
       const req = await axios.get(`${location}/api/reservations`, {
           params: {
