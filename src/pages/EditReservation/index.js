@@ -302,7 +302,7 @@ const EditReservation = () => {
    
     const [priceList, setPriceList] = useState({});
     const [costMessage, setCostMessage] = useState("");
-    const location = "https://bachotek-app-api-production.up.railway.app"
+    const location = process.env.API_URL || "https://bachotek-app-api.onrender.com";
 
 
     React.useEffect(() => {

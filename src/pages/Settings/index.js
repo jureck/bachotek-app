@@ -62,7 +62,7 @@ const EquipmentWrapper = styled.div`
 const Settings = () => {
     const { username } = useAuth();
     const navigate = useNavigate();
-    const location = "https://bachotek-app-api-production.up.railway.app"
+    const location = process.env.API_URL || "https://bachotek-app-api.onrender.com";
     const [alertTime, setAlertTime] = useState();   
     const [priceList, setPriceList] = useState({
         hour: {
