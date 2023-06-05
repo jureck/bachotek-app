@@ -870,9 +870,32 @@ const Reservations = ({ username }) => {
         getReservationsForDay(expandedDay);
     }
     
+    const checkPlannedReservations = async () => {
+        const currentDay = new Date().getDate();
+        const req = await axios.get(`${location}/api/reservations`, {
+            params: {
+                date: `${currentYear}-${currentMonth}-${currentDay}`
+        }})
+        req.data.forEach(async r => {
+            if(r.status === "planned" && r.startDate < `${new Date().getHours()}:${new Date().getMinutes()}`) {
+                const res = await axios.get(`${location}/api/reservations/${r._id}`);
+                const reservation = res.data;
+                await axios.put(`${location}/api/reservations/${r._id}`, {...reservation, status: "open"});
+            }
+        });
+    }
+    
     React.useEffect(() => {
         getReservationsForDay(expandedDay);
     }, [typeFilters, statusFilters, timeFilters, paidFilters, currentYear, currentMonth, nameSearch, sortType])
+
+    React.useEffect(() => {
+    
+        let timer = setInterval(() => checkPlannedReservations(), 10000);
+        return () => {
+            clearInterval(timer);
+        };
+    },[]);
 
     return ( 
         <>

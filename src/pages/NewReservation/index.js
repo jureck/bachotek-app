@@ -496,7 +496,7 @@ const NewReservation = () => {
 
             } else {
                 const req = await axios.post(`${location}/api/reservations`, { 
-                    status: "open",
+                    status: "planned",
                     addedAt: new Date().toISOString(),
                     startDay: startDayFormatted,
                     clientId: clientData._id,
