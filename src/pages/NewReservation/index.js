@@ -300,6 +300,24 @@ const ClearInputs = styled.p`
         background-color: ${colors.primaryHover};
     }
 `
+const BlockedTitle = styled.p`
+    font-weight: 600;
+    font-size: ${fontSizes.xm};
+`
+const BlockedRes = styled.div`
+    width: 600px;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+`
+const ResDay = styled.span`
+    display: block;
+`
+const ResHours = styled.span`
+    display: block;
+`
+
+
 
 export const convertToISODate = (date) => {
     const tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
@@ -314,9 +332,10 @@ const NewReservation = () => {
     const [phone, setPhone] = useState("");
     const [pesel, setPesel] = useState("");
     const [id, setId] = useState("");
-    const [startTime, setStartTime] = useState("00:00");
-    const [approxTime, setApproxTime] = useState("00:00");
+    const [startTime, setStartTime] = useState(`${new Date().getHours() < 10 ? `0${new Date().getHours()}` : `${new Date().getHours()}`}:${new Date().getMinutes() < 10 ? `0${new Date().getMinutes()}` : new Date().getMinutes()}`);
+    const [approxTime, setApproxTime] = useState("23:59");
     const [startDay, setStartDay] = useState(new Date().toISOString().slice(0, -14));
+    const [endDay, setEndDay] = useState(new Date().toISOString().slice(0, -14));
     const [paid, setPaid] = useState(0);
     const [comments, setComments] = useState("");
     const [equipment, setEquipment] = useState([]);
@@ -334,6 +353,13 @@ const NewReservation = () => {
         kayak: 0,
         boat: []
     });
+    const [blockedEquipment, setBlockedEquipment] = useState({
+        jacket: 0,
+        oar: 0,
+        kayak: 0,
+        boat: []
+    });
+    const [blockingRes, setBlockingRes] = useState([]);
     const [clientData, setClientData] = useState({});
     const [disabledInputs, setDisabledInputs] = useState({name: false, phone: false, pesel: false, id: false, discount: false});
     const [visibleProducts, setVisibleProducts] = useState({kayak: false, boat: false, jacket: false, oar: false});
@@ -401,72 +427,35 @@ const NewReservation = () => {
     const addReservation = async () => {
         if(name && phone) {
             let startDayFormatted = `${new Date(startDay).getFullYear()}-${new Date(startDay).getMonth()+1}-${new Date(startDay).getDate()}`;
+            const d1 = new Date(startDay),
+            d2 = new Date(endDay),
+            diff = (d2-d1)/864e5,
+            dates = Array.from(
+            {length: diff+1},
+            (_,i) => {
+                const date = new Date() 
+                date.setDate(d1.getDate()+i);
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                const day = date.getDate();
+                return `${year}-${month+1}-${day}`
+            }
+            )
+            const equipment = [];
             
-            let equipment=[];
-            if(Object.keys(selectedEquipment.boat).length !== 0) {
-                Object.keys(selectedEquipment.boat).forEach(async key => {
-                    if(selectedEquipment.boat[key]) {
-                        equipment.push({
-                            type: "Łódka",
-                            amount: 1,
-                            number: Number(key)
-                        });
-                        const boat = await axios.get(`${location}/api/equipment/number`, { params: { name: "Łódka", number: Number(key) } });
-                        const boatId = boat.data[0];
-                        await axios.put(`${location}/api/equipment/${boatId._id}`,  {
-                            _id: boatId._id,
-                            name: "Łódka",
-                            amount: 0,
-                            number: Number(key),
-                            status: "notAvailable"
-                        });
-                    }
-                });
-    
+            for(const key in selectedEquipment.boat) {
+                if(selectedEquipment.boat[key] === true) {
+                    equipment.push({
+                        type: "Łódka",
+                        amount: 1,
+                        number: Number(key)
+                    })
+                }
             }
-    
-            if(selectedEquipment.jacket) {
-                equipment.push({
-                    type: "Kapok",
-                    amount: selectedEquipment.jacket,
-                })
-                const allJackets = await axios.get(`${location}/api/equipment`, { params: { name: "Kapok" } });
-                await axios.put(`${location}/api/equipment/${allJackets.data[0]._id}`,  {
-                    _id: allJackets.data[0]._id,
-                    name: "Kapok",
-                    amount: allJackets.data[0].amount - selectedEquipment.jacket,
-                    number: 1,
-                    status: allJackets.data[0].amount - selectedEquipment.jacket > 0 ? "available" : "notAvailable"
-                });
-            }
-            if(selectedEquipment.oar) {
-                equipment.push({
-                    type: "Wiosło",
-                    amount: selectedEquipment.oar,
-                })
-                const allOars = await axios.get(`${location}/api/equipment`, { params: { name: "Wiosło" } });
-                await axios.put(`${location}/api/equipment/${allOars.data[0]._id}`,  {
-                    _id: allOars.data[0]._id,
-                    name: "Wiosło",
-                    amount: allOars.data[0].amount - selectedEquipment.oar,
-                    number: 1,
-                    status: allOars.data[0].amount - selectedEquipment.oar > 0 ? "available" : "notAvailable"
-                });
-            }
-            if(selectedEquipment.kayak) {
-                equipment.push({
-                    type: "Kajak",
-                    amount: selectedEquipment.kayak,
-                })
-                const allKayaks = await axios.get(`${location}/api/equipment`, { params: { name: "Kajak" } });
-                await axios.put(`${location}/api/equipment/${allKayaks.data[0]._id}`,  {
-                    _id: allKayaks.data[0]._id,
-                    name: "Kajak",
-                    amount: allKayaks.data[0].amount - selectedEquipment.kayak,
-                    number: 1,
-                    status: allKayaks.data[0].amount - selectedEquipment.kayak > 0 ? "available" : "notAvailable"
-                });
-            }
+            if(selectedEquipment.kayak) equipment.push({ type: "Kajak", amount: selectedEquipment.kayak});
+            if(selectedEquipment.oar) equipment.push({ type: "Wiosło", amount: selectedEquipment.oar});
+            if(selectedEquipment.jacket) equipment.push({ type: "Kapok", amount: selectedEquipment.jacket});
+
             if(!clientData.name) {
                 const req = await axios.post(`${location}/api/clients`, { 
                     name: name.toUpperCase(), 
@@ -478,51 +467,257 @@ const NewReservation = () => {
     
                 const clientId = req.data._id;
                 const clientReq = await axios.get(`${location}/api/clients/${clientId}`);
-                
-                const res = await axios.post(`${location}/api/reservations`, { 
-                    status: "open",
-                    addedAt: new Date().toISOString(),
-                    startDay: startDayFormatted,
-                    clientId: clientReq.data._id,
-                    equipment,
-                    startDate: startTime,
-                    approxDate: approxTime,
-                    endDate: "-",
-                    cost,
-                    paid,
-                    comments
-                });
-                if(req.status === 201) navigate("/rezerwacje");
-
+             
+                if(dates.length === 1) {
+                    const res = await axios.post(`${location}/api/reservations`, { 
+                        status: "planned",
+                        addedAt: new Date().toISOString(),
+                        startDay: startDay,
+                        clientId: clientReq.data._id,
+                        equipment,
+                        startDate: startTime,
+                        approxDate: approxTime,
+                        endDate: "-",
+                        cost,
+                        paid,
+                        comments
+                    });
+                    if(res.status === 201) navigate("/rezerwacje");
+                } else {
+                    dates.map(async (date, i) => {
+                        if(i === 0) {
+                            const res = await axios.post(`${location}/api/reservations`, { 
+                                status: "planned",
+                                addedAt: new Date().toISOString(),
+                                startDay: date,
+                                clientId: clientReq.data._id,
+                                equipment,
+                                startDate: startTime,
+                                approxDate: "19:00",
+                                endDate: "-",
+                                cost,
+                                paid,
+                                comments
+                            });
+                           
+                        } else if(i === dates.length - 1) {
+                            const res = await axios.post(`${location}/api/reservations`, { 
+                                status: "planned",
+                                addedAt: new Date().toISOString(),
+                                startDay: date,
+                                clientId: clientReq.data._id,
+                                equipment,
+                                startDate: "09:00",
+                                approxDate: approxTime,
+                                endDate: "-",
+                                cost,
+                                paid,
+                                comments
+                            });
+                            
+                        } else {
+                            const res = await axios.post(`${location}/api/reservations`, { 
+                                status: "planned",
+                                addedAt: new Date().toISOString(),
+                                startDay: date,
+                                clientId: clientReq.data._id,
+                                equipment,
+                                startDate: "09:00",
+                                approxDate: "19:00",
+                                endDate: "-",
+                                cost,
+                                paid,
+                                comments
+                            });
+                           
+                        }  
+                    })
+                    navigate("/rezerwacje");
+                }
             } else {
-                const req = await axios.post(`${location}/api/reservations`, { 
-                    status: "planned",
-                    addedAt: new Date().toISOString(),
-                    startDay: startDayFormatted,
-                    clientId: clientData._id,
-                    equipment,
-                    startDate: startTime,
-                    approxDate: approxTime,
-                    endDate: "-",
-                    cost,
-                    paid,
-                    comments
-                });
-                if(req.status === 201) navigate("/rezerwacje");
+                if(dates.length === 1) {
+                    const res = await axios.post(`${location}/api/reservations`, { 
+                        status: "planned",
+                        addedAt: new Date().toISOString(),
+                        startDay: dates[0],
+                        clientId: clientData._id,
+                        equipment,
+                        startDate: startTime,
+                        approxDate: approxTime,
+                        endDate: "-",
+                        cost,
+                        paid,
+                        comments
+                    });
+                    if(res.status === 201) navigate("/rezerwacje");
+                } else {
+                    dates.map(async (date, i) => {
+                        if(i === 0) {
+                            await axios.post(`${location}/api/reservations`, { 
+                                status: "planned",
+                                addedAt: new Date().toISOString(),
+                                startDay: date,
+                                clientId: clientData._id,
+                                equipment,
+                                startDate: startTime,
+                                approxDate: "19:00",
+                                endDate: "-",
+                                cost,
+                                paid,
+                                comments
+                            });
+                        } else if(i === dates.length - 1) {
+                            await axios.post(`${location}/api/reservations`, { 
+                                status: "planned",
+                                addedAt: new Date().toISOString(),
+                                startDay: date,
+                                clientId: clientData._id,
+                                equipment,
+                                startDate: "09:00",
+                                approxDate: approxTime,
+                                endDate: "-",
+                                cost,
+                                paid,
+                                comments
+                            });
+                        } else {
+                            await axios.post(`${location}/api/reservations`, { 
+                                status: "planned",
+                                addedAt: new Date().toISOString(),
+                                startDay: date,
+                                clientId: clientData._id,
+                                equipment,
+                                startDate: "09:00",
+                                approxDate: "19:00",
+                                endDate: "-",
+                                cost,
+                                paid,
+                                comments
+                            });
+                        }  
+                    })
+                    navigate("/rezerwacje");
+                }
             }
         }
+    }
+
+    const getStateForDate = async (startDay, endDay, startTime, endTime) => {
+        const d1 = new Date(startDay),
+        d2 = new Date(endDay),
+        diff = (d2-d1)/864e5,
+        dates = Array.from(
+          {length: diff+1},
+          (_,i) => {
+            const date = new Date() 
+            date.setDate(d1.getDate()+i);
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const day = date.getDate();
+            return `${year}-${month+1}-${day}`
+          }
+        )
+        let hoursArray = [];
+        for(let j = Number(startTime.slice(0, -3)); j < Number(endTime.slice(0, -3)); j ++) {
+            hoursArray.push(j);
+        }
+        let blocking = [];
+        let blockedKayak = 0;
+        let blockedOar = 0;
+        let blockedJacket = 0;
+        let blockedBoat = [];
+       
+        if(dates.length === 1) {
+           
+            const res = await axios.get(`${location}/api/reservations`, { params: {
+                date: `${dates[0]}`,
+                status: "open,planned",
+            }});
+           
+            const blockingReservations = res.data.filter(el => {
+                let resHoursArray = [];
+                for(let k = Number(el.startDate.slice(0, -3)); k < Number(el.approxDate.slice(0, -3)); k ++) {
+                    resHoursArray.push(k);
+                }
+               
+                const filteredArray = hoursArray.filter(value => resHoursArray.includes(value));
+                if(filteredArray.length) return true;
+                return false;
+            });
+            blocking.push(...blockingReservations);
+            blocking.forEach(res => {
+                res.equipment.forEach(eq => {
+                    if(eq.type === "Kajak") blockedKayak += eq.amount;
+                    if(eq.type === "Wiosło") blockedOar += eq.amount;
+                    if(eq.type === "Kapok") blockedJacket += eq.amount;
+                    if(eq.type === "Łódka") {
+                        blockedBoat.push(eq.number);
+                    }
+                })
+            })
+        } else {
+            for(let i = 0; i < dates.length; i ++) {
+                const res = await axios.get(`${location}/api/reservations`, { params: {
+                    date: `${dates[i]}`,
+                    status: "open,planned",
+                }});
+                let hoursArray = [];
+                if(i === 0) {
+                    for(let j = Number(startTime.slice(0, -3)); j < 19; j ++) {
+                        hoursArray.push(j);
+                    }
+                } else if(i === dates.length - 1) {
+                    for(let j = 8; j < Number(endTime.slice(0, -3)); j ++) {
+                        hoursArray.push(j);
+                    }
+                } else {
+                    for(let j = 8; j < 20; j ++) {
+                        hoursArray.push(j);
+                    }
+                }
+                const blockingReservations = res.data.filter(el => {
+                    let resHoursArray = [];
+                    for(let k = Number(el.startDate.slice(0, -3)); k < Number(el.approxDate.slice(0, -3)); k ++) {
+                        resHoursArray.push(k);
+                    }
+                    const filteredArray = hoursArray.filter(value => resHoursArray.includes(value));
+                    if(filteredArray.length) return true;
+                    return false;
+                })
+                blocking.push(...blockingReservations);
+            }
+            blocking.forEach(res => {
+                res.equipment.forEach(eq => {
+                    if(eq.type === "Kajak") blockedKayak += eq.amount;
+                    if(eq.type === "Wiosło") blockedOar += eq.amount;
+                    if(eq.type === "Kapok") blockedJacket += eq.amount;
+                    if(eq.type === "Łódka") {
+                        blockedBoat.push(eq.number);
+                    }
+                })
+            })
+
+        }
+        
+        setBlockingRes([...blocking]);
+        setBlockedEquipment({
+            jacket: blockedJacket,
+            oar: blockedOar,
+            kayak: blockedKayak,
+            boat: [...blockedBoat]
+        });
     }
 
     React.useEffect(() => {
         const req = async () => {
             let kayak, jacket, oar, boat;
             const kayakReq = await axios.get(`${location}/api/equipment`, { params: { name: "Kajak" } });
-            kayak = kayakReq.data[0]?.amount;
+            kayak = kayakReq.data[0]?.maxAmount;
             const jacketReq = await axios.get(`${location}/api/equipment`, { params: { name: "Kapok" } });
-            jacket = jacketReq.data[0]?.amount;
+            jacket = jacketReq.data[0]?.maxAmount;
             const oarReq = await axios.get(`${location}/api/equipment`, { params: { name: "Wiosło" } });
-            oar = oarReq.data[0]?.amount;
-            const boatReq = await axios.get(`${location}/api/equipment`, { params: { name: "Łódka", status: "available" } });
+            oar = oarReq.data[0]?.maxAmount;
+            const boatReq = await axios.get(`${location}/api/equipment`, { params: { name: "Łódka" } });
             boat = [...boatReq.data];
             setMaxAmount({kayak, jacket, oar, boat});
             const priceReq = await axios.get(`${location}/api/settings`);
@@ -544,18 +739,39 @@ const NewReservation = () => {
         const approxEnd = approxTime.slice(0, -3);
         const hours = approxEnd - start;
 
+        const d1 = new Date(startDay),
+        d2 = new Date(endDay),
+        diff = (d2-d1)/864e5,
+        dates = Array.from(
+          {length: diff+1},
+          (_,i) => {
+            const date = new Date() 
+            date.setDate(d1.getDate()+i);
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const day = date.getDate();
+            return `${year}-${month+1}-${day}`
+          }
+        )
+
         let boatHours = 0;
         let boatDay = 0;
         if(selectedEquipment.kayak) {
             kayakHours = selectedEquipment.kayak * priceList.hour?.kayak * hours;
-            kayakDay = selectedEquipment.kayak * priceList.day?.kayak;
-            if(kayakDay <= kayakHours) {
-                kayakMessage = `Cena za ${selectedEquipment.kayak} x kajak do końca dnia: ${kayakDay} zł`;
+            kayakDay = selectedEquipment.kayak * priceList.day?.kayak * dates.length;
+            if(dates.length > 1) {
+                kayakMessage = `Cena za ${selectedEquipment.kayak} x kajak na ${dates.length} dni: ${kayakDay} zł`;
                 price += kayakDay;
             } else {
-                kayakMessage = `Cena za ${selectedEquipment.kayak} x kajak na ${hours} h: ${kayakHours} zł`;
-                price += kayakHours;
+                if(kayakDay <= kayakHours) {
+                    kayakMessage = `Cena za ${selectedEquipment.kayak} x kajak do końca dnia: ${kayakDay} zł`;
+                    price += kayakDay;
+                } else {
+                    kayakMessage = `Cena za ${selectedEquipment.kayak} x kajak na ${hours} h: ${kayakHours} zł`;
+                    price += kayakHours;
+                }
             }
+           
             
         }
         if(Object.values(selectedEquipment.boat).some(el => el === true)) {
@@ -564,7 +780,11 @@ const NewReservation = () => {
                 if(selectedEquipment.boat[key] === true) boatNumbers.push(key);
             });
             boatHours = boatNumbers.length * priceList.hour?.boat * hours;
-            boatDay = boatNumbers.length * priceList.day?.kayak;
+            boatDay = boatNumbers.length * priceList.day?.boat * dates.length;
+            if(dates.length > 1) {
+                boatMessage = `Cena za ${boatNumbers.length} x łódka na ${dates.length} dni: ${boatDay} zł`;
+                price += boatDay;
+            }
             if(boatDay <= boatHours) {
                 boatMessage = `Cena za ${boatNumbers.length} x łódka do końca dnia: ${boatDay} zł`;
                 price += boatDay;
@@ -578,10 +798,11 @@ const NewReservation = () => {
         setCostMessage(<><p>{kayakMessage}</p><p>{boatMessage}</p></>);
     }   
 
+
     React.useEffect(() => {
         calculatePrice();
     }, [name, startTime, approxTime, isDiscount, paid, selectedEquipment, priceList])
-
+    
     return ( 
         <PageContent>
             <Wrapper>
@@ -605,9 +826,10 @@ const NewReservation = () => {
                         </DiscountSelect>
                     </PersonalData>
                     <ReservationDetails>
-                        <Input onChange={(e) => setStartDay(e.target.value)} value={startDay} type="date" label="Dzień rozpoczęcia" name="startDay"/>
-                        <Input onChange={(e) => setStartTime(e.target.value)} value={startTime} type="time" min="09:00" max="19:00" label="Godz. rozpoczęcia" name="startTime"/>
-                        <Input onChange={(e) => setApproxTime(e.target.value)} value={approxTime} type="time" min="09:00" max="19:00" label="Orientacyjna godz. spływu" name="estimatedEndTime"/>
+                        <Input onChange={(e) => {setStartDay(e.target.value); getStateForDate(e.target.value, endDay, startTime, approxTime)}} value={startDay} type="date" label="Dzień rozpoczęcia" name="startDay"/>
+                        <Input onChange={(e) => {setStartTime(e.target.value); getStateForDate(startDay, endDay, e.target.value, approxTime)}} value={startTime} type="time" min="09:00" max="19:00" label="Godz. rozpoczęcia" name="startTime"/>
+                        <Input onChange={(e) => {setEndDay(e.target.value); getStateForDate(startDay, e.target.value, startTime, approxTime)}} value={endDay} type="date" label="Dzień zakończenia" name="startDay"/>
+                        <Input onChange={(e) => {setApproxTime(e.target.value); getStateForDate(startDay, endDay, startTime, e.target.value)}} value={approxTime} type="time" min="09:00" max="19:00" label="Orientacyjna godz. spływu" name="estimatedEndTime"/>
                         <Input onChange={(e) => setPaid(e.target.value)} value={paid} type="number" label="Zaliczka (zł)" name="prepayment"/>
                         <Input onChange={(e) => setComments(e.target.value)} value={comments} type="text" width="370" label="Uwagi" name="comments"/>
                     </ReservationDetails>
@@ -617,7 +839,7 @@ const NewReservation = () => {
                     <Products>
 
                         <ProductWrapper>
-                            Dostępne: {maxAmount.kayak}
+                            Dostępne: {maxAmount.kayak - blockedEquipment.kayak}
                             <ProductImage onClick={() => toggleEquipment("kayak")} visible={visibleProducts["kayak"]}>
                                 <Image src={Kayak}/>
                                 <ProductName>Kajak</ProductName>
@@ -629,13 +851,13 @@ const NewReservation = () => {
                                     isClickable={selectedEquipment.kayak > 1}>-</QuantityControl>
                                 <Quantity>{selectedEquipment.kayak}</Quantity>
                                 <QuantityControl 
-                                 onClick={() => selectedEquipment.kayak < maxAmount.kayak ? setSelectedEquipment({...selectedEquipment, kayak: selectedEquipment["kayak"] + 1}) : null} 
-                                isClickable={selectedEquipment.kayak < maxAmount.kayak}>+</QuantityControl>
+                                 onClick={() => selectedEquipment.kayak < maxAmount.kayak - blockedEquipment.kayak ? setSelectedEquipment({...selectedEquipment, kayak: selectedEquipment["kayak"] + 1}) : null} 
+                                isClickable={selectedEquipment.kayak < maxAmount.kayak - blockedEquipment.kayak}>+</QuantityControl>
                             </ProductOptions>
                         </ProductWrapper>
 
                         <ProductWrapper>
-                            Dostępne: {maxAmount.boat.length}
+                            Dostępne: {maxAmount.boat.length - blockedEquipment.boat.length}
                             <ProductImage onClick={() => toggleEquipment("boat")} visible={visibleProducts["boat"]}>
                                 <Image src={Boat}/>
                                 <ProductName>Łódka</ProductName>
@@ -643,7 +865,9 @@ const NewReservation = () => {
                             <ProductMessage visible={visibleProducts["boat"]}>Numery łódek</ProductMessage>
                             <ProductOptions visible={visibleProducts["boat"]}>
                                 {maxAmount.boat.map((boat, q) => {
-                                    return <BoatId 
+                                    return blockedEquipment.boat.includes(String(boat.number)) ? null 
+                                    :
+                                            <BoatId 
                                                 key={boat.number}
                                                 selected={selectedEquipment.boat[q+1] === true ? true : false}
                                                 onClick={() => setSelectedEquipment({...selectedEquipment, boat: {...selectedEquipment.boat, [q+1]: !selectedEquipment.boat[q+1]}})}
@@ -655,7 +879,7 @@ const NewReservation = () => {
                         </ProductWrapper>
 
                         <ProductWrapper>
-                            Dostępne: {maxAmount.jacket}
+                            Dostępne: {maxAmount.jacket - blockedEquipment.jacket}
                             <ProductImage onClick={() => toggleEquipment("jacket")} visible={visibleProducts["jacket"]}>
                                 <Image src={Jacket}/>
                                 <ProductName>Kapok</ProductName>
@@ -668,12 +892,12 @@ const NewReservation = () => {
                                 <Quantity>{selectedEquipment.jacket}</Quantity>
                                 <QuantityControl 
                                  onClick={() => selectedEquipment.jacket < maxAmount.jacket ? setSelectedEquipment({...selectedEquipment, jacket: selectedEquipment["jacket"] + 1}) : null} 
-                                isClickable={selectedEquipment.jacket < maxAmount.jacket}>+</QuantityControl>
+                                isClickable={selectedEquipment.jacket < maxAmount.jacket - blockedEquipment.jacket}>+</QuantityControl>
                             </ProductOptions>
                         </ProductWrapper>
 
                         <ProductWrapper>
-                            Dostępne: {maxAmount.oar}
+                            Dostępne: {maxAmount.oar - blockedEquipment.oar}
                             <ProductImage onClick={() => toggleEquipment("oar")} visible={visibleProducts["oar"]}>
                                 <Image src={Oar}/>
                                 <ProductName>Wiosło</ProductName>
@@ -686,7 +910,7 @@ const NewReservation = () => {
                                 <Quantity>{selectedEquipment.oar}</Quantity>
                                 <QuantityControl 
                                 onClick={() => selectedEquipment.oar < maxAmount.oar ? setSelectedEquipment({...selectedEquipment, oar: selectedEquipment["oar"] + 1}) : null} 
-                                isClickable={selectedEquipment.oar < maxAmount.oar}>+</QuantityControl>
+                                isClickable={selectedEquipment.oar < maxAmount.oar - blockedEquipment.oar}>+</QuantityControl>
                             </ProductOptions>
                         </ProductWrapper>
                     </Products>
@@ -696,6 +920,26 @@ const NewReservation = () => {
                         <Cost>{isDiscount ? "Razem po zniżce: " : "Razem: "}{cost ? cost : 0} zł</Cost>
                     </CostSummary>
                     <Button onClick={addReservation} text="Dodaj rezerwację" bgColor={colors.primary} textColor="white" hoverColor={colors.primaryHover}/>
+                  
+                    {blockingRes.length > 0 ? <BlockedTitle>Inne rezerwacje w tym terminie</BlockedTitle> : null}
+                    {
+                        blockingRes.map(res => 
+                            <BlockedRes>
+                                <ResDay>{res.startDay}</ResDay>
+                                <ResHours>{`${res.startDate} - ${res.approxDate}`}</ResHours>
+                                {res.equipment.map(el => {
+                                    if(el.type === "Łódka") {
+                                        return `(${el.type} nr ${el.number})`
+                                    } else {
+                                        return `(${el.type} x ${el.amount})`
+                                    }
+                                })}
+                            </BlockedRes>
+                        )
+                    }
+                            
+                     
+                   
                 </OrderContent>
             </Wrapper>
         </PageContent>

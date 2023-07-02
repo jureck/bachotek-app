@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import PageContent from "../../components/PageContent";
 import { colors } from "../../constants/colors";
@@ -10,6 +10,8 @@ import ToggleToken from "../../components/ToggleToken";
 import Input from "../../components/Input";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 
 
@@ -596,6 +598,7 @@ const DeleteButtons = styled.div`
 
 
 const Reservations = ({ username }) => {
+    const navigate = useNavigate();
     const location = "https://bachotek-app-api.onrender.com";
     const emptyMonth = {1:[],2:[],3:[],4:[],5:[],6:[],7:[],8:[],9:[],10:[],
         11:[],12:[],13:[],14:[],15:[],16:[],17:[],18:[],19:[],20:[],21:[],22:[],23:[],24:[],25:[],26:[],27:[],28:[],29:[],30:[],31:[]};
@@ -616,7 +619,7 @@ const Reservations = ({ username }) => {
         jacket: true
     });
     const [resToDelete, setResToDelete] = useState();
-
+    const ref = useRef(null);
     const [statusFilters, setStatusFilters] = useState({
         open: true,
         close: true,
@@ -880,9 +883,33 @@ const Reservations = ({ username }) => {
             if(r.status === "planned" && r.startDate < `${new Date().getHours()}:${new Date().getMinutes()}`) {
                 const res = await axios.get(`${location}/api/reservations/${r._id}`);
                 const reservation = res.data;
+                const equipment = [...reservation.equipment];
+                equipment.forEach(async el => {
+                    if(el.type === "Łódka") {
+                        const boat = await axios.get(`${location}/api/equipment/number`, { params: { name: "Łódka", number: el.number } });
+                        const boatId = boat.data[0];
+                        await axios.put(`${location}/api/equipment/${boatId._id}`,  {
+                            _id: boatId._id,
+                            name: "Łódka",
+                            amount: 0,
+                            number: Number(el.number),
+                            status: "notAvailable"
+                        });
+                    } else {
+                        const eq = await axios.get(`${location}/api/equipment`, { params: { name: el.type } });
+                        await axios.put(`${location}/api/equipment/${eq.data[0]._id}`,  {
+                            _id: eq.data[0]._id,
+                            name: el.type,
+                            amount: eq.data[0].amount - el.amount,
+                            number: 1,
+                            status: eq.data[0].amount - el.amount > 0 ? "available" : "notAvailable"
+                        });
+                    }
+                });
                 await axios.put(`${location}/api/reservations/${r._id}`, {...reservation, status: "open"});
             }
         });
+        
     }
     
     React.useEffect(() => {
@@ -896,6 +923,15 @@ const Reservations = ({ username }) => {
             clearInterval(timer);
         };
     },[]);
+
+    const scrollToElement = () => {
+        ref.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      };
+    
+    useEffect(() => {
+        scrollToElement();
+      }, []);
+    
 
     return ( 
         <>
@@ -990,7 +1026,7 @@ const Reservations = ({ username }) => {
                 {
                     [...Array(daysInMonth[currentMonth])].map((e, i) => {
                         return  <>
-                                <Day key={i} onClick={() => toggleExpansion("day", i+1)}  
+                                <Day key={i} ref={new Date().getDate() === i+1 ? ref : null} onClick={() => toggleExpansion("day", i+1)}  
                                         isExpanded={expandedDay === i+1} 
                                         isSaturday={new Date(`${currentYear}-${currentMonth}-${i+1}`).getDay() === 6 ? true : false}
                                         isSunday={new Date(`${currentYear}-${currentMonth}-${i+1}`).getDay() === 0 ? true : false}

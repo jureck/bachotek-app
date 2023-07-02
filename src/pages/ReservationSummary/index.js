@@ -233,6 +233,7 @@ const TotalCost = styled.div`
     width: 100%;
     justify-content: flex-end;
     color: red;
+    align-items: center;
 `
 const DelayCost = styled.div`
     color: ${colors.lightRed};
@@ -247,6 +248,15 @@ const Prepayment = styled.div`
     width: 100%;
     justify-content: flex-end;
     color: ${colors.primary};
+`
+const CostInput = styled.input`
+    border: 0px;
+    height: 40px;
+    width: 70px;
+    text-align: center;
+    margin: 0px 10px;
+    background-color: ${colors.whiteOnHover};
+    font-size: ${fontSizes.m};
 `
 
 
@@ -266,10 +276,54 @@ const ReservationSummary = () => {
         Kapok: Jacket,
         Wiosło: Oar
     }
+    const [priceList, setPriceList] = useState(0);
     const [paid, setPaid] = useState(0);
     const [cost, setCost] = useState(0);
     const [isDiscount, setIsDiscount] = useState(false);
     const location = "https://bachotek-app-api.onrender.com";
+
+    const calculatePrice = (time) => {
+        setEndTime(time);
+        let price = 0;
+        let kayakHours = 0;
+        let kayakDay = 0;
+        let boatHours = 0;
+        let boatDay = 0;
+        let kayakAmount = 0;
+        let boatAmount = 0;
+
+        const start = startTime.slice(0, -3);
+        const end = time.slice(0, -3);
+        const hours = end - start;
+
+        equipment.forEach(el => {
+            if(el.type === "Kajak") kayakAmount += el.amount;
+            if(el.type === "Łódka") boatAmount += 1;
+        });
+       
+        if(kayakAmount) {
+            kayakHours = kayakAmount * priceList.hour?.kayak * hours;
+            kayakDay = kayakAmount * priceList.day?.kayak;
+            if(kayakDay <= kayakHours) {
+                price += kayakDay;
+            } else {
+                price += kayakHours;
+            }
+            
+        }
+        if(boatAmount) {
+            boatHours = boatAmount * priceList.hour?.boat * hours;
+            boatDay = boatAmount * priceList.day?.boat;
+            if(boatDay <= boatHours) {
+                price += boatDay;
+            } else {
+                price += boatHours;
+            }
+        }
+        if(isDiscount)  price = price * 0.9;
+        setCost(price);
+        setHours(hours);
+    }   
 
     const endReservation = async () => {
         if(endTime.length > 1) {
@@ -309,8 +363,8 @@ const ReservationSummary = () => {
                 startDate: res.data.startDate,
                 approxDate: res.data.approxDate,
                 endDate: endTime,
-                cost: res.data.cost,
-                paid: res.data.cost,
+                cost: cost,
+                paid: cost,
                 comments: res.data.comments
             });
             if(editedReservation.status === 201) navigate("/rezerwacje");
@@ -335,12 +389,14 @@ const ReservationSummary = () => {
                 id: client.data.id,
                 isDiscount: client.data.isDiscount
             })
+            const priceReq = await axios.get(`${location}/api/settings`);
+            setPriceList({...priceReq.data[0].priceList[0]});
         }
 
         res();
     }, []);
     
- 
+   
     return ( 
         <PageContent>
             <Wrapper>
@@ -374,7 +430,7 @@ const ReservationSummary = () => {
                         <EndTimeHeader>
                             Faktyczna godz. spływu:
                         </EndTimeHeader>
-                        <Input value={endTime} onChange={(e) => setEndTime(e.target.value)} type="time" name="EndTime" label="" min="9:00" max="19:00" height="60" width="110"/>
+                        <Input value={endTime} onChange={(e) => calculatePrice(e.target.value)} type="time" name="EndTime" label="" min="9:00" max="19:00" height="60" width="110"/>
                     </EndTimeContainer>
                     <Button onClick={endReservation} height="80" bgColor={colors.primary} hoverColor={colors.primaryHover} text="Zakończ rezerwację" textColor="white" />
                 </UserData>
@@ -409,7 +465,7 @@ const ReservationSummary = () => {
                         
                         <TotalCost>
                             <CostTitle>Do zapłaty</CostTitle>
-                            <CostData>{`${cost - paid} zł`}</CostData>
+                            <CostInput type="number" value={cost-paid} onChange={(e) => setCost(e.target.value-paid)}></CostInput>zł
                         </TotalCost>
                     </Cost>
                 </ReservationDetails>

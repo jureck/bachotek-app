@@ -135,7 +135,7 @@ const Alerts = () => {
     return ( 
         <PageContent>
             {alerts.length ? alerts.map((alert, q) => {
-                const date = alert.addedAt.slice(0, -14);
+                const date = alert.addedAt.slice(0, -13);
                 let time = alert.addedAt.slice(11, -7);
                 return  <AlertWrapper key={q}>
                             <AlertTime>{`${date} ${time}`}</AlertTime>
