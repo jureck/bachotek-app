@@ -410,16 +410,31 @@ const NewReservation = () => {
     }
 
     const toggleEquipment = (type) => {
-        if(visibleProducts[type] === true) {
-            if(type === "boat") {
-                setSelectedEquipment({...selectedEquipment, boat: {}})
-            } else {
-                setSelectedEquipment({...selectedEquipment, [type]: 0});
-            }
-        } else {
-            if(type !== "boat") setSelectedEquipment({...selectedEquipment, [type]: 1});
+        let amount = 1;
+        if(type === "kayak") {
+            amount = maxAmount.kayak - blockedEquipment.kayak;
         }
-        setVisibleProducts({...visibleProducts, [type]: !visibleProducts[type]});
+        if(type === "boat") {
+            amount = maxAmount.boat.length - blockedEquipment.boat.length;
+        }
+        if(type === "oar") {
+            amount = maxAmount.oar - blockedEquipment.oar;
+        }
+        if(type === "jacket") {
+            amount = maxAmount.jacket - blockedEquipment.jacket;
+        }
+        if(amount > 1) {
+            if(visibleProducts[type] === true) {
+                if(type === "boat") {
+                    setSelectedEquipment({...selectedEquipment, boat: {}})
+                } else {
+                    setSelectedEquipment({...selectedEquipment, [type]: 0});
+                }
+            } else {
+                if(type !== "boat") setSelectedEquipment({...selectedEquipment, [type]: 1});
+            }
+            setVisibleProducts({...visibleProducts, [type]: !visibleProducts[type]});
+        }
     }
 
     
