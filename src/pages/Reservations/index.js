@@ -1098,7 +1098,7 @@ const Reservations = ({ username }) => {
                                             </Comments>
                         
                                             <ReservationOptions>
-                                                {res.status !== "close" ? 
+                                                {res.status === "open" ? 
                                                     <EditLink to={`/podsumowanie-rezerwacji/${res.rId}`}>
                                                         <Button 
                                                             bgColor={colors.primary}
@@ -1117,7 +1117,7 @@ const Reservations = ({ username }) => {
                                                         text="Edytuj"
                                                     />
                                                 </EditLink>
-                                                {username === "Admin" ?  
+                                                {username === "Admin" && res.status !== "open" ?  
                                                     <Button 
                                                         onClick={() => {setResToDelete(res.rId); setDeleteModal(!deleteModal)}}
                                                         bgColor="#F18686"

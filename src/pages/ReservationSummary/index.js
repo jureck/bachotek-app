@@ -214,7 +214,7 @@ const CostTitle = styled.span`
     text-align: right;
 `
 const CostData = styled.span`
-    width: 20%;
+    width: 150px;
     text-align: center;
     margin-bottom: 10px;
 `
@@ -231,7 +231,7 @@ const TotalCost = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
-    justify-content: flex-end;
+    justify-content: center;
     color: red;
     align-items: center;
 `
@@ -246,7 +246,7 @@ const Prepayment = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
-    justify-content: flex-end;
+    justify-content: center;
     color: ${colors.primary};
 `
 const CostInput = styled.input`
@@ -270,6 +270,7 @@ const ReservationSummary = () => {
     const [approxTime, setApproxTime] = useState("");
     const [equipment, setEquipment] = useState([]);
     const [hours, setHours] = useState(0);
+    const [status, setStatus] = useState("");
     const imageList = {
         Kajak: Kayak,
         Łódka: Boat,
@@ -330,6 +331,7 @@ const ReservationSummary = () => {
             const res = await axios.get(`${location}/api/reservations/${rId}`);
             const { data } = res;
             const eq = [...data.equipment];
+            
             eq.forEach(async el => {
                 if(el.type === "Łódka") {
                     const boat = await axios.get(`${location}/api/equipment/number`, { params: { name: "Łódka", number: el.number } });
@@ -344,6 +346,7 @@ const ReservationSummary = () => {
                 } else {
                     const eq = await axios.get(`${location}/api/equipment`, { params: { name: el.type } });
                     const eqId = eq.data[0];
+                    console.log(eqId.amount, el.amount)
                     await axios.put(`${location}/api/equipment/${eqId._id}`,  {
                         _id: eqId._id,
                         name: el.type,
@@ -352,7 +355,8 @@ const ReservationSummary = () => {
                         status: eqId.amount + el.amount > 0 ? "available" : "notAvailable"
                     });
                 }
-            })
+            })     
+            
             const editedReservation = await axios.put(`${location}/api/reservations/${rId}`, {
                 _id: rId,
                 status: "close",
@@ -379,6 +383,7 @@ const ReservationSummary = () => {
             setApproxTime(reservation.data.approxDate);
             setEquipment(reservation.data.equipment);
             setIsDiscount(client.data.isDiscount);
+            setStatus(reservation.data.status);
             setPaid(reservation.data.paid);
             setCost(reservation.data.cost);
             setHours(Number(reservation.data.approxDate.slice(0, -3)) - Number(reservation.data.startDate.slice(0, -3)));
@@ -465,7 +470,7 @@ const ReservationSummary = () => {
                         
                         <TotalCost>
                             <CostTitle>Do zapłaty</CostTitle>
-                            <CostInput type="number" value={cost-paid} onChange={(e) => setCost(e.target.value-paid)}></CostInput>zł
+                            <CostInput type="number" placeholder={cost-paid} onChange={(e) => setCost(e.target.value)}></CostInput>zł
                         </TotalCost>
                     </Cost>
                 </ReservationDetails>
