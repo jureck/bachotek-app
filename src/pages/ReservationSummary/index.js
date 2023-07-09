@@ -346,7 +346,6 @@ const ReservationSummary = () => {
                 } else {
                     const eq = await axios.get(`${location}/api/equipment`, { params: { name: el.type } });
                     const eqId = eq.data[0];
-                    console.log(eqId.amount, el.amount)
                     await axios.put(`${location}/api/equipment/${eqId._id}`,  {
                         _id: eqId._id,
                         name: el.type,

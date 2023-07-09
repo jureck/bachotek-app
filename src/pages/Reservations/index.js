@@ -758,7 +758,7 @@ const Reservations = ({ username }) => {
                     comments: reservation.comments,
                 };
                 if(newReservation.startTime > timeFilters.from && newReservation.startTime < timeFilters.to) {
-                    reservations.push(newReservation);
+                    reservations[i] = {...newReservation};
                 }
                 setReservationsOfDay({...emptyMonth, [id]: [...reservations]});
             });
@@ -872,18 +872,67 @@ const Reservations = ({ username }) => {
         await axios.delete(`${location}/api/reservations/${id}`);
         getReservationsForDay(expandedDay);
     }
-    
+   
+    const setEquipmentState = async (state) => {
+
+        const kayakReq = await axios.get(`${location}/api/equipment/`, { params: {
+            name: "Kajak"
+        } });
+        const oarReq = await axios.get(`${location}/api/equipment/`, { params: {
+            name: "Wiosło"
+        } });
+        const jacketReq = await axios.get(`${location}/api/equipment/`, { params: {
+            name: "Kapok"
+        } });
+
+        await axios.put(`${location}/api/equipment/64569a2df70fe803a37168a3`,  {
+            ...kayakReq.data[0],
+            amount: state["Kayak"],
+            status: state["Kayak"] > 0 ? "available" : "notAvailable"
+        });
+        
+        await axios.put(`${location}/api/equipment/64569a6df70fe803a37168b2`,  {
+            ...jacketReq.data[0],
+            amount: state["Jacket"],
+            status: state["Jacket"] > 0 ? "available" : "notAvailable"
+        });
+
+        await axios.put(`${location}/api/equipment/64569a8bf70fe803a37168b4`,  {
+            ...oarReq.data[0],
+            amount: state["Oar"],
+            status: state["Oar"] > 0 ? "available" : "notAvailable"
+        });
+    }
+
     const checkPlannedReservations = async () => {
         const currentDay = new Date().getDate();
         const req = await axios.get(`${location}/api/reservations`, {
             params: {
                 date: `${currentYear}-${currentMonth}-${currentDay}`
         }})
-        req.data.forEach(async r => {
+        
+        const kayakReq = await axios.get(`${location}/api/equipment/`, { params: {
+            name: "Kajak"
+        } });
+        const oarReq = await axios.get(`${location}/api/equipment/`, { params: {
+            name: "Wiosło"
+        } });
+        const jacketReq = await axios.get(`${location}/api/equipment/`, { params: {
+            name: "Kapok"
+        } });
+
+        const currentState = {
+            Kayak: kayakReq.data[0].amount,
+            Jacket: jacketReq.data[0].amount,
+            Oar: oarReq.data[0].amount
+        }
+
+        await req.data.map(async r => { 
             if(r.status === "planned" && r.startDate < `${new Date().getHours()}:${new Date().getMinutes()}`) {
                 const res = await axios.get(`${location}/api/reservations/${r._id}`);
                 const reservation = res.data;
                 const equipment = [...reservation.equipment];
+                
                 equipment.forEach(async el => {
                     if(el.type === "Łódka") {
                         const boat = await axios.get(`${location}/api/equipment/number`, { params: { name: "Łódka", number: el.number } });
@@ -895,21 +944,18 @@ const Reservations = ({ username }) => {
                             number: Number(el.number),
                             status: "notAvailable"
                         });
-                    } else {
-                        const eq = await axios.get(`${location}/api/equipment`, { params: { name: el.type } });
-                        await axios.put(`${location}/api/equipment/${eq.data[0]._id}`,  {
-                            _id: eq.data[0]._id,
-                            name: el.type,
-                            amount: eq.data[0].amount - el.amount,
-                            number: 1,
-                            status: eq.data[0].amount - el.amount > 0 ? "available" : "notAvailable"
-                        });
+                    } else { 
+                        let type;
+                        if(el.type === "Kajak") type = "Kayak";
+                        if(el.type === "Wiosło") type = "Oar";
+                        if(el.type === "Kapok") type = "Jacket";
+                        currentState[type] -= el.amount;
                     }
                 });
-                await axios.put(`${location}/api/reservations/${r._id}`, {...reservation, status: "open"});
+                setEquipmentState(currentState);
+                axios.put(`${location}/api/reservations/${r._id}`, {...reservation, status: "open"});
             }
         });
-        
     }
     
     React.useEffect(() => {
@@ -930,9 +976,9 @@ const Reservations = ({ username }) => {
     
     useEffect(() => {
         scrollToElement();
-      }, []);
-    
+    }, []);
 
+      
     return ( 
         <>
         <PageContent>
@@ -1038,7 +1084,7 @@ const Reservations = ({ username }) => {
                                         <Arrow src={expandedDay === i+1 ? ArrowUp : ArrowDown} />
                                     </DayArrowWrapper>
                                 </Day>
-                                {reservationsOfDay[i+1]?.map((res, q) => {
+                                {!reservationsOfDay[i+1].includes(undefined) ? reservationsOfDay[i+1]?.map((res, q) => {
                                     return  <Reservation key={q} onClick={() => toggleExpansion("reservation", res.rId)} id={res.rId} isExpanded={expandedReservation === res.rId} reservationStatus={res.status}>
                                             <Name>
                                                 <CellTitle>Imię i nazwisko</CellTitle>
@@ -1130,7 +1176,7 @@ const Reservations = ({ username }) => {
                                                
                                             </ReservationOptions>
                                         </Reservation>
-                                })}
+                                }): null}
                                 </>
                                 
                     })

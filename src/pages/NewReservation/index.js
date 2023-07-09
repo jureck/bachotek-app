@@ -306,15 +306,19 @@ const BlockedTitle = styled.p`
 `
 const BlockedRes = styled.div`
     width: 600px;
-    height: 100px;
+    height: 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    margin-top: 5px;
+    margin-bottom: 5px;
 `
 const ResDay = styled.span`
     display: block;
 `
 const ResHours = styled.span`
     display: block;
+    margin-left: 10px;
+    margin-right: 10px;
 `
 
 
@@ -734,6 +738,7 @@ const NewReservation = () => {
             oar = oarReq.data[0]?.maxAmount;
             const boatReq = await axios.get(`${location}/api/equipment`, { params: { name: "Łódka" } });
             boat = [...boatReq.data];
+            boat.sort((a,b) => a.number - b.number); 
             setMaxAmount({kayak, jacket, oar, boat});
             const priceReq = await axios.get(`${location}/api/settings`);
             setPriceList({...priceReq.data[0].priceList[0]});

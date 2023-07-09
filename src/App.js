@@ -75,7 +75,7 @@ function App() {
 
   React.useEffect(() => {
     
-      let timer1 = setInterval(() => getAlertsAmount(), 60000);
+      let timer1 = setInterval(() => getAlertsAmount(), 10000);
       return () => {
           clearInterval(timer1);
       };

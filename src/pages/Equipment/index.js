@@ -344,6 +344,7 @@ const Equipment = () => {
         } else {
             setEquipment([]);
         }
+        tempEq.sort((a,b) => a.number - b.number); 
         setEquipment([...tempEq]);
     }
 
